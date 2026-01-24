@@ -1,0 +1,21 @@
+{
+    "name": "Challenge Suite - Famiglia Doro",
+    "short_name": "ChallengeSuite",
+    "description": "Join challenges, win prizes, and showcase your talent.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#a855f7",
+    "icons": [
+        {
+            "src": "/logo-gold.jpg",
+            "sizes": "192x192",
+            "type": "image/jpeg"
+        },
+        {
+            "src": "/logo-gold.jpg",
+            "sizes": "512x512",
+            "type": "image/jpeg"
+        }
+    ]
+}
