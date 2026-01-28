@@ -103,9 +103,6 @@ export const authOptions: NextAuthOptions = {
                 sameSite: 'lax',
                 path: '/',
                 secure: process.env.NODE_ENV === 'production', // true in production, false in dev
-                domain: process.env.NODE_ENV === 'production'
-                    ? '.vercel.app'
-                    : undefined,
             },
         },
         callbackUrl: {
@@ -116,9 +113,6 @@ export const authOptions: NextAuthOptions = {
                 sameSite: 'lax',
                 path: '/',
                 secure: process.env.NODE_ENV === 'production',
-                domain: process.env.NODE_ENV === 'production'
-                    ? '.vercel.app'
-                    : undefined,
             },
         },
         csrfToken: {
