@@ -80,10 +80,12 @@ export default function Sidebar() {
                     }}>
                         <Image
                             src="/logo-gold.jpg"
-                            alt="Famiglia Doro CS"
+                            alt="Challenge Suite"
                             fill
                             style={{ objectFit: 'cover' }}
                             priority
+                            unoptimized
+                            key="logo-gold-new"
                         />
                     </div>
                 </div>

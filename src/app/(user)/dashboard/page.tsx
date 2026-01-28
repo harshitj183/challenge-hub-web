@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import styles from './page.module.css';
+import StoryFeed from '@/components/StoryFeed';
 
 export default function Dashboard() {
   const { data: session } = useSession();
@@ -120,6 +121,9 @@ export default function Dashboard() {
           </div>
         ))}
       </section>
+
+      {/* Story Feed */}
+      <StoryFeed />
 
       {/* Main Grid 60/40 */}
       <div className={styles.mainGrid}>

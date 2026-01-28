@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import styles from './page.module.css';
 import SubmissionModal from '@/components/challenges/SubmissionModal';
+import ShareButton from '@/components/ShareButton';
 
 interface Challenge {
     _id: string;
@@ -303,6 +304,18 @@ export default function ChallengeDetailsPage() {
                                 </button>
                             </Link>
                         )}
+                    </div>
+
+                    <div className={styles.actionCard}>
+                        <h3>Share Challenge</h3>
+                        <p style={{ marginBottom: '1rem', color: '#999' }}>
+                            Share this challenge with your friends!
+                        </p>
+                        <ShareButton
+                            title={challenge.title}
+                            description={challenge.description}
+                            url={`/challenges/${challenge._id}`}
+                        />
                     </div>
 
                     <div className={styles.actionCard}>
