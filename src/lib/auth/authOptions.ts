@@ -90,21 +90,47 @@ export const authOptions: NextAuthOptions = {
         strategy: 'jwt',
         maxAge: 30 * 24 * 60 * 60, // 30 days
     },
-    secret: '7c20a8d46a84f3f2d1e2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4', // Hardcoded for verification
+    secret: process.env.NEXTAUTH_SECRET || '7c20a8d46a84f3f2d1e2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4',
     debug: true,
-    // Only override cookies in development/preview to handle the tunnel/localhost mismatch.
-    // In production (Vercel), let NextAuth handle it automatically.
-    ...(process.env.NODE_ENV !== 'production' && {
-        cookies: {
-            sessionToken: {
-                name: `next-auth.session-token`,
-                options: {
-                    httpOnly: true,
-                    sameSite: 'lax',
-                    path: '/',
-                    secure: false, // Force non-secure in dev if using a tunnel that looks like http internally
-                },
+    // Cookie configuration for both development and production
+    cookies: {
+        sessionToken: {
+            name: process.env.NODE_ENV === 'production'
+                ? '__Secure-next-auth.session-token'
+                : 'next-auth.session-token',
+            options: {
+                httpOnly: true,
+                sameSite: 'lax',
+                path: '/',
+                secure: process.env.NODE_ENV === 'production', // true in production, false in dev
+                domain: process.env.NODE_ENV === 'production'
+                    ? '.vercel.app'
+                    : undefined,
             },
         },
-    }),
+        callbackUrl: {
+            name: process.env.NODE_ENV === 'production'
+                ? '__Secure-next-auth.callback-url'
+                : 'next-auth.callback-url',
+            options: {
+                sameSite: 'lax',
+                path: '/',
+                secure: process.env.NODE_ENV === 'production',
+                domain: process.env.NODE_ENV === 'production'
+                    ? '.vercel.app'
+                    : undefined,
+            },
+        },
+        csrfToken: {
+            name: process.env.NODE_ENV === 'production'
+                ? '__Host-next-auth.csrf-token'
+                : 'next-auth.csrf-token',
+            options: {
+                httpOnly: true,
+                sameSite: 'lax',
+                path: '/',
+                secure: process.env.NODE_ENV === 'production',
+            },
+        },
+    },
 };
