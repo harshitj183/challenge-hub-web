@@ -17,6 +17,11 @@ interface UserProfile {
     location?: string;
     website?: string;
     instagram?: string;
+    tiktok?: string;
+    twitter?: string;
+    facebook?: string;
+    whatsapp?: string;
+    telegram?: string;
     badges: any[];
     stats: any;
     followersCount: number;
