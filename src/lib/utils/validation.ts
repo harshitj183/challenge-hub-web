@@ -46,6 +46,11 @@ export const updateProfileSchema = z.object({
     location: z.string().max(50).optional(),
     website: z.union([z.string().url('Invalid URL'), z.literal('')]).optional(),
     instagram: z.string().max(30).optional(),
+    tiktok: z.string().max(30).optional(),
+    twitter: z.string().max(30).optional(),
+    facebook: z.string().max(50).optional(),
+    whatsapp: z.string().max(20).optional(),
+    telegram: z.string().max(30).optional(),
 });
 
 // Challenge Creation Schema

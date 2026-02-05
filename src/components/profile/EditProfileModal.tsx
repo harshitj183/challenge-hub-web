@@ -10,6 +10,11 @@ interface UserData {
     location?: string;
     website?: string;
     instagram?: string;
+    tiktok?: string;
+    twitter?: string;
+    facebook?: string;
+    whatsapp?: string;
+    telegram?: string;
 }
 
 interface EditProfileModalProps {
@@ -24,6 +29,11 @@ export default function EditProfileModal({ user, onClose, onUpdate }: EditProfil
     const [location, setLocation] = useState(user.location || '');
     const [website, setWebsite] = useState(user.website || '');
     const [instagram, setInstagram] = useState(user.instagram || '');
+    const [tiktok, setTiktok] = useState(user.tiktok || '');
+    const [twitter, setTwitter] = useState(user.twitter || '');
+    const [facebook, setFacebook] = useState(user.facebook || '');
+    const [whatsapp, setWhatsapp] = useState(user.whatsapp || '');
+    const [telegram, setTelegram] = useState(user.telegram || '');
 
     const [file, setFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState(user.avatar);
@@ -74,7 +84,12 @@ export default function EditProfileModal({ user, onClose, onUpdate }: EditProfil
                     bio,
                     location,
                     website,
-                    instagram
+                    instagram,
+                    tiktok,
+                    twitter,
+                    facebook,
+                    whatsapp,
+                    telegram
                 }),
             });
 
@@ -184,6 +199,68 @@ export default function EditProfileModal({ user, onClose, onUpdate }: EditProfil
                                 maxLength={30}
                             />
                         </div>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                        <div className={styles.group}>
+                            <label className={styles.label}>TikTok</label>
+                            <input
+                                type="text"
+                                className={styles.input}
+                                value={tiktok}
+                                onChange={(e) => setTiktok(e.target.value)}
+                                placeholder="@username"
+                                maxLength={30}
+                            />
+                        </div>
+                        <div className={styles.group}>
+                            <label className={styles.label}>X (Twitter)</label>
+                            <input
+                                type="text"
+                                className={styles.input}
+                                value={twitter}
+                                onChange={(e) => setTwitter(e.target.value)}
+                                placeholder="@username"
+                                maxLength={30}
+                            />
+                        </div>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                        <div className={styles.group}>
+                            <label className={styles.label}>Facebook</label>
+                            <input
+                                type="text"
+                                className={styles.input}
+                                value={facebook}
+                                onChange={(e) => setFacebook(e.target.value)}
+                                placeholder="Profile URL or Username"
+                                maxLength={50}
+                            />
+                        </div>
+                        <div className={styles.group}>
+                            <label className={styles.label}>WhatsApp</label>
+                            <input
+                                type="text"
+                                className={styles.input}
+                                value={whatsapp}
+                                onChange={(e) => setWhatsapp(e.target.value)}
+                                placeholder="Phone number"
+                                maxLength={20}
+                            />
+                        </div>
+                    </div>
+
+                    <div className={styles.group}>
+                        <label className={styles.label}>Telegram</label>
+                        <input
+                            type="text"
+                            className={styles.input}
+                            value={telegram}
+                            onChange={(e) => setTelegram(e.target.value)}
+                            placeholder="@username"
+                            maxLength={30}
+                        />
                     </div>
 
                     <div className={styles.group}>

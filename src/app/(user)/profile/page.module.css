@@ -6,7 +6,8 @@
 .profileHeader {
     padding: 2.5rem !important;
     margin-bottom: 2rem;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%) !important;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(252, 226, 5, 0.05) 100%) !important;
+    border: 1px solid rgba(212, 175, 55, 0.1);
 }
 
 .profileInfo {
@@ -28,7 +29,7 @@
     width: 140px;
     height: 140px;
     border-radius: 50%;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(252, 226, 5, 0.2) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -50,19 +51,20 @@
 }
 
 .editBtn {
-    background: #4f46e5;
-    color: white;
+    background: var(--gradient-main);
+    color: black;
     border: none;
     padding: 0.75rem 2rem;
     border-radius: var(--radius-md);
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
 }
 
 .editBtn:hover {
-    background: #4338ca;
-    transform: scale(1.05);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(212, 175, 55, 0.4);
 }
 
 .premiumBadge {
@@ -148,8 +150,10 @@
 }
 
 .tab.active {
-    background: #4f46e5;
-    color: white;
+    background: var(--gradient-main);
+    color: black;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
 }
 
 /* Submissions Grid */
@@ -175,7 +179,7 @@
 .submissionImage {
     position: relative;
     height: 160px;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(252, 226, 5, 0.1) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -211,7 +215,7 @@
 
 .participantName {
     font-weight: 500;
-    color: #6366f1;
+    color: var(--accent-primary);
 }
 
 .metricInfo {
@@ -233,18 +237,20 @@
 
 .viewBtn {
     width: 100%;
-    background: #4f46e5;
-    color: white;
+    background: var(--gradient-main);
+    color: black;
     border: none;
     padding: 0.75rem;
     border-radius: var(--radius-md);
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
 }
 
 .viewBtn:hover {
-    background: #4338ca;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
 }
 
 @media (max-width: 768px) {

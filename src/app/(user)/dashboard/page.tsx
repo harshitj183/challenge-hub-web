@@ -88,14 +88,19 @@ export default function Dashboard() {
 
 
 
-  if (loading) return <div className="loading-spinner">Loading dashboard...</div>;
+  // if (loading) return <div className="loading-spinner">Loading dashboard...</div>;
+
   return (
     <div className={styles.dashboard}>
       <header className={styles.header}>
         <div>
           <h1 className="text-gradient">Dashboard</h1>
           <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
-            Welcome back, <strong>Harshit</strong>! Ready to take on new challenges?
+            {loading ? (
+              <span className="skeleton" style={{ display: 'inline-block', width: '200px', height: '1em' }} />
+            ) : (
+              <>Welcome back, <strong>{userData?.name || 'User'}</strong>! Ready to take on new challenges?</>
+            )}
           </p>
         </div>
         <Link href="/challenges">
@@ -105,21 +110,34 @@ export default function Dashboard() {
 
       {/* Enhanced KPI Row */}
       <section className={styles.kpiGrid}>
-        {stats.map((stat, index) => (
-          <div key={index} className={`glass-card ${styles.statCard}`}>
-            <div className={styles.statIcon}>
-              {stat.icon}
-            </div>
-            <div className={styles.statContent}>
-              <p className={styles.statLabel}>{stat.label}</p>
-              <div className={styles.statValue}>
-                <h3>{stat.value}</h3>
-                <span className={styles.statTrend}>{stat.trend}</span>
+        {loading ? (
+          Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className={`glass-card ${styles.statCard}`}>
+              <div className="skeleton" style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
+              <div className={styles.statContent} style={{ width: '100%' }}>
+                <div className="skeleton" style={{ width: '80px', height: '14px', marginBottom: '8px' }} />
+                <div className="skeleton" style={{ width: '60px', height: '24px', marginBottom: '4px' }} />
+                <div className="skeleton" style={{ width: '40px', height: '12px' }} />
               </div>
-              <p className={styles.statSubtext}>{stat.subtext}</p>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          stats.map((stat, index) => (
+            <div key={index} className={`glass-card ${styles.statCard}`}>
+              <div className={styles.statIcon}>
+                {stat.icon}
+              </div>
+              <div className={styles.statContent}>
+                <p className={styles.statLabel}>{stat.label}</p>
+                <div className={styles.statValue}>
+                  <h3>{stat.value}</h3>
+                  <span className={styles.statTrend}>{stat.trend}</span>
+                </div>
+                <p className={styles.statSubtext}>{stat.subtext}</p>
+              </div>
+            </div>
+          ))
+        )}
       </section>
 
       {/* Story Feed */}
@@ -142,7 +160,19 @@ export default function Dashboard() {
             </div>
 
             <div className={styles.challengeGrid}>
-              {activeChallenges.length > 0 ? (
+              {loading ? (
+                Array.from({ length: 2 }).map((_, i) => (
+                  <div key={i} className={styles.challengeCard}>
+                    <div className={`${styles.challengeImage} skeleton`} style={{ height: '200px' }} />
+                    <div className={styles.challengeContent}>
+                      <div className="skeleton" style={{ width: '70%', height: '20px', marginBottom: '10px' }} />
+                      <div className="skeleton" style={{ width: '100%', height: '14px', marginBottom: '6px' }} />
+                      <div className="skeleton" style={{ width: '90%', height: '14px', marginBottom: '16px' }} />
+                      <div className="skeleton" style={{ width: '100px', height: '36px', borderRadius: '8px' }} />
+                    </div>
+                  </div>
+                ))
+              ) : activeChallenges.length > 0 ? (
                 activeChallenges.map((challenge) => {
                   // Fallback for broken picsum images - force local
                   const getChallengeImage = (c: any) => {
@@ -210,7 +240,17 @@ export default function Dashboard() {
               <h3>📢 Recent Activity</h3>
             </div>
             <div className={styles.activityList}>
-              {recentActivity.map((activity, idx) => (
+              {loading ? (
+                Array.from({ length: 3 }).map((_, i) => (
+                  <div key={i} className={styles.activityItem}>
+                    <div className="skeleton" style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
+                    <div className={styles.activityContent} style={{ width: '100%' }}>
+                      <div className="skeleton" style={{ width: '80%', height: '14px', marginBottom: '6px' }} />
+                      <div className="skeleton" style={{ width: '40%', height: '12px' }} />
+                    </div>
+                  </div>
+                ))
+              ) : recentActivity.map((activity, idx) => (
                 <div key={idx} className={styles.activityItem}>
                   <span className={styles.activityIcon}>{activity.icon}</span>
                   <div className={styles.activityContent}>
@@ -240,7 +280,17 @@ export default function Dashboard() {
             </div>
 
             <div className={styles.leaderboardList}>
-              {leaderboard.map((item, idx) => (
+              {loading ? (
+                Array.from({ length: 5 }).map((_, i) => (
+                  <div key={i} className={styles.leaderboardItem}>
+                    <div className="skeleton" style={{ width: '32px', height: '32px', borderRadius: '50%' }} />
+                    <div className={styles.leaderInfo} style={{ width: '100%' }}>
+                      <div className="skeleton" style={{ width: '60%', height: '14px', marginBottom: '4px' }} />
+                      <div className="skeleton" style={{ width: '30%', height: '12px' }} />
+                    </div>
+                  </div>
+                ))
+              ) : leaderboard.map((item, idx) => (
                 <div
                   key={idx}
                   className={`${styles.leaderboardItem} ${item.userId?._id === session?.user?.id ? styles.highlighted : ''}`}
@@ -282,7 +332,11 @@ export default function Dashboard() {
               <h3>🎖️ Recent Badges</h3>
             </div>
             <div className={styles.badgeGrid} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(90px, 1fr))', gap: '0.75rem', marginTop: '0.5rem' }}>
-              {userData?.badges && userData.badges.length > 0 ? (
+              {loading ? (
+                Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="skeleton" style={{ height: '80px', borderRadius: '12px' }} />
+                ))
+              ) : userData?.badges && userData.badges.length > 0 ? (
                 userData.badges.slice(0, 6).map((badge: any, idx: number) => (
                   <div
                     key={idx}

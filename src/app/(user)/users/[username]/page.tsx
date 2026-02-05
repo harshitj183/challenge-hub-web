@@ -115,7 +115,33 @@ export default function PublicProfilePage() {
     };
 
     if (loading) {
-        return <div className="loading-screen"><div className="spinner"></div></div>;
+        return (
+            <div className={styles.profilePage}>
+                <div className={styles.header}>
+                    <div className={styles.avatarSection}>
+                        <div className={`${styles.avatarWrapper} skeleton`} style={{ border: 'none' }} />
+                    </div>
+                    <div className={styles.info}>
+                        <div className="skeleton" style={{ width: '200px', height: '32px', marginBottom: '1rem' }} />
+                        <div className={styles.stats}>
+                            {Array.from({ length: 4 }).map((_, i) => (
+                                <div key={i} className={styles.stat}>
+                                    <div className="skeleton" style={{ width: '30px', height: '20px', marginBottom: '5px' }} />
+                                    <div className="skeleton" style={{ width: '40px', height: '14px' }} />
+                                </div>
+                            ))}
+                        </div>
+                        <div className="skeleton" style={{ width: '100%', height: '16px', marginTop: '1rem' }} />
+                        <div className="skeleton" style={{ width: '80%', height: '16px', marginTop: '0.5rem' }} />
+                    </div>
+                </div>
+                <div className={styles.grid}>
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <div key={i} className="skeleton" style={{ aspectRatio: '1', borderRadius: '12px' }} />
+                    ))}
+                </div>
+            </div>
+        );
     }
 
     if (!user) {
@@ -131,7 +157,7 @@ export default function PublicProfilePage() {
                 <div className={styles.avatarSection}>
                     <div className={styles.avatarWrapper}>
                         <Image
-                            src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=6366f1&color=fff`}
+                            src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=d4af37&color=000`}
                             alt={user.name}
                             fill
                             unoptimized
@@ -186,10 +212,43 @@ export default function PublicProfilePage() {
                     {/* Links */}
                     <div className={styles.links}>
                         {user.location && <span>📍 {user.location}</span>}
-                        {user.instagram && <span>📸 @{user.instagram}</span>}
                         {user.website && (
                             <a href={user.website} target="_blank" rel="noreferrer">
                                 🔗 {user.website}
+                            </a>
+                        )}
+                    </div>
+
+                    {/* Social Media Links */}
+                    <div style={{ display: 'flex', gap: '1rem', marginTop: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                        {user.instagram && (
+                            <a href={`https://instagram.com/${user.instagram.replace('@', '')}`} target="_blank" rel="noreferrer" title="Instagram" style={{ color: '#E1306C', transition: 'transform 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                            </a>
+                        )}
+                        {user.tiktok && (
+                            <a href={`https://tiktok.com/@${user.tiktok.replace('@', '')}`} target="_blank" rel="noreferrer" title="TikTok" style={{ color: '#ff0050', transition: 'transform 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93v6.16c0 3.13-1.13 6.13-3.57 8.09-2.43 1.95-6.19 2.5-9.15 1.05-2.45-1.2-4.11-3.69-4.14-6.42-.1-3.72 2.77-6.9 6.48-7.14V14c-1.58.45-2.88 1.91-2.92 3.52.01 1.25.75 2.51 1.98 2.87 1.79.52 3.86-.49 4.39-2.26.15-.59.18-1.2.18-1.81V.02h2.67z" fill="white"></path></svg>
+                            </a>
+                        )}
+                        {user.twitter && (
+                            <a href={`https://twitter.com/${user.twitter.replace('@', '')}`} target="_blank" rel="noreferrer" title="X (Twitter)" style={{ color: '#fff', transition: 'transform 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                            </a>
+                        )}
+                        {user.facebook && (
+                            <a href={user.facebook.startsWith('http') ? user.facebook : `https://facebook.com/${user.facebook}`} target="_blank" rel="noreferrer" title="Facebook" style={{ color: '#1877F2', transition: 'transform 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                            </a>
+                        )}
+                        {user.whatsapp && (
+                            <a href={`https://wa.me/${user.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer" title="WhatsApp" style={{ color: '#25D366', transition: 'transform 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                            </a>
+                        )}
+                        {user.telegram && (
+                            <a href={`https://t.me/${user.telegram.replace('@', '')}`} target="_blank" rel="noreferrer" title="Telegram" style={{ color: '#229ED9', transition: 'transform 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                             </a>
                         )}
                     </div>

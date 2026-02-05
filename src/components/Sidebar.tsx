@@ -41,6 +41,7 @@ export default function Sidebar() {
 
     if (session) {
         navItems.splice(3, 0, { name: 'My Challenges', path: '/my-challenges', icon: '🎯' });
+        navItems.splice(3, 0, { name: 'Create Challenge', path: '/challenges/create', icon: '➕' });
         navItems.splice(2, 0, { name: 'Favorites', path: '/favorites', icon: '⭐' });
         navItems.push({ name: 'Profile', path: '/profile', icon: '👤' });
     }
@@ -71,8 +72,8 @@ export default function Sidebar() {
                 <div className="sidebar-header" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem' }}>
                     <div className="logo-container" style={{
                         position: 'relative',
-                        width: '100px',
-                        height: '100px',
+                        width: '150px',
+                        height: '150px',
                         borderRadius: '50%',
                         overflow: 'hidden',
                         boxShadow: '0 0 20px rgba(255, 215, 0, 0.3)',

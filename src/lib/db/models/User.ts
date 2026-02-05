@@ -10,6 +10,11 @@ export interface IUser extends Document {
     location?: string;
     website?: string;
     instagram?: string;
+    tiktok?: string;
+    twitter?: string;
+    facebook?: string;
+    whatsapp?: string;
+    telegram?: string;
     role: 'user' | 'admin' | 'creator';
     isPremium: boolean;
     premiumExpiry?: Date;
@@ -81,6 +86,26 @@ const UserSchema: Schema<IUser> = new Schema(
             default: '',
         },
         instagram: {
+            type: String,
+            default: '',
+        },
+        tiktok: {
+            type: String,
+            default: '',
+        },
+        twitter: {
+            type: String,
+            default: '',
+        },
+        facebook: {
+            type: String,
+            default: '',
+        },
+        whatsapp: {
+            type: String,
+            default: '',
+        },
+        telegram: {
             type: String,
             default: '',
         },

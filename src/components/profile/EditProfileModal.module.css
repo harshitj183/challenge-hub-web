@@ -142,7 +142,7 @@
 }
 
 .submitBtn {
-    background: var(--gradient-main, linear-gradient(135deg, #6366F1 0%, #a855f7 100%));
+    background: var(--gradient-main, linear-gradient(135deg, #d4af37 0%, #fce205 100%));
     border: none;
     color: white;
     padding: 0.8rem 2rem;

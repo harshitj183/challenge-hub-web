@@ -17,6 +17,15 @@ export async function GET(request: NextRequest) {
         const search = searchParams.get('search');
         const page = parseInt(searchParams.get('page') || '1');
         const limit = parseInt(searchParams.get('limit') || '10');
+        const sortParam = searchParams.get('sort') || 'newest';
+
+        // Build sort object
+        let sort: any = { createdAt: -1 };
+        if (sortParam === 'popular' || sortParam === 'participants') {
+            sort = { participants: -1 };
+        } else if (sortParam === 'oldest') {
+            sort = { createdAt: 1 };
+        }
 
         // Build query
         const query: any = {};
@@ -35,7 +44,7 @@ export async function GET(request: NextRequest) {
         const skip = (page - 1) * limit;
         const challenges = await Challenge.find(query)
             .populate('createdBy', 'name email avatar')
-            .sort({ createdAt: -1 })
+            .sort(sort)
             .skip(skip)
             .limit(limit)
             .lean();
@@ -69,10 +78,10 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        // Check if user is admin or creator
-        if (session.user.role !== 'admin' && session.user.role !== 'creator') {
+        // Check if user is admin or creator - Allow 'user' for now as requested
+        if (session.user.role !== 'admin' && session.user.role !== 'creator' && session.user.role !== 'user') {
             return NextResponse.json(
-                { error: 'Only admins and creators can create challenges' },
+                { error: 'Unauthorized to create challenges' },
                 { status: 403 }
             );
         }

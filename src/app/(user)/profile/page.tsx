@@ -15,6 +15,11 @@ interface UserData {
     location?: string;
     website?: string;
     instagram?: string;
+    tiktok?: string;
+    twitter?: string;
+    facebook?: string;
+    whatsapp?: string;
+    telegram?: string;
     stats: {
         totalPoints: number;
         badgesCollected: number;
@@ -102,9 +107,9 @@ export default function ProfilePage() {
         }
     };
 
-    if (loading) return <div style={{ padding: '2rem' }}>Loading profile...</div>;
+    // if (loading) return <div style={{ padding: '2rem' }}>Loading profile...</div>;
 
-    if (!session) return <div style={{ padding: '2rem' }}>Please log in to view profile.</div>;
+    if (!session && !loading) return <div style={{ padding: '2rem' }}>Please log in to view profile.</div>;
 
     const stats = [
         { label: 'Total Points', value: user?.stats?.totalPoints?.toLocaleString() || '0' },
@@ -129,47 +134,105 @@ export default function ProfilePage() {
                 <div className={styles.profileInfo}>
                     <div className={styles.avatarSection}>
                         <div className={styles.avatar}>
-                            <div style={{ width: 80, height: 80, borderRadius: '50%', overflow: 'hidden', position: 'relative' }}>
-                                <Image
-                                    key={user?.avatar || 'default'}
-                                    src={user?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}&background=6366f1&color=fff`}
-                                    alt="Avatar"
-                                    fill
-                                    unoptimized
-                                    style={{ objectFit: 'cover' }}
-                                />
-                            </div>
+                            {loading ? (
+                                <div className="skeleton" style={{ width: 80, height: 80, borderRadius: '50%' }} />
+                            ) : (
+                                <div style={{ width: 80, height: 80, borderRadius: '50%', overflow: 'hidden', position: 'relative' }}>
+                                    <Image
+                                        key={user?.avatar || 'default'}
+                                        src={user?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}&background=6366f1&color=fff`}
+                                        alt="Avatar"
+                                        fill
+                                        unoptimized
+                                        style={{ objectFit: 'cover' }}
+                                    />
+                                </div>
+                            )}
                         </div>
                         <div className={styles.userDetails}>
-                            <h1>{user?.name}</h1>
-                            <p className={styles.email}>📧 {user?.email}</p>
+                            {loading ? (
+                                <>
+                                    <div className="skeleton" style={{ width: '200px', height: '24px', marginBottom: '8px' }} />
+                                    <div className="skeleton" style={{ width: '150px', height: '16px', marginBottom: '8px' }} />
+                                    <div className="skeleton" style={{ width: '100px', height: '36px', borderRadius: '8px' }} />
+                                </>
+                            ) : (
+                                <>
+                                    <h1>{user?.name}</h1>
+                                    <p className={styles.email}>📧 {user?.email}</p>
 
-                            {user?.bio && <p style={{ marginTop: '0.5rem', fontStyle: 'italic', opacity: 0.8 }}>{user.bio}</p>}
+                                    {user?.bio && <p style={{ marginTop: '0.5rem', fontStyle: 'italic', opacity: 0.8 }}>{user.bio}</p>}
 
-                            <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem', fontSize: '0.9rem', flexWrap: 'wrap' }}>
-                                {user?.location && <span>📍 {user.location}</span>}
-                                {user?.instagram && <span>📸 @{user.instagram}</span>}
-                                {user?.website && <a href={user.website} target="_blank" rel="noreferrer" style={{ color: '#a855f7' }}>🔗 Website</a>}
-                            </div>
+                                    <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem', fontSize: '0.9rem', flexWrap: 'wrap' }}>
+                                        {user?.location && <span title="Location">📍 {user.location}</span>}
+                                        {user?.website && <a href={user.website} target="_blank" rel="noreferrer" style={{ color: '#a855f7' }} title="Website">🔗 Website</a>}
+                                    </div>
 
-                            <button className={styles.editBtn} onClick={() => setIsEditing(true)}>Edit Profile</button>
+                                    {/* Social Media Links */}
+                                    <div style={{ display: 'flex', gap: '1rem', marginTop: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                                        {user?.instagram && (
+                                            <a href={`https://instagram.com/${user.instagram.replace('@', '')}`} target="_blank" rel="noreferrer" title="Instagram" style={{ color: '#E1306C', transition: 'transform 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                                            </a>
+                                        )}
+                                        {user?.tiktok && (
+                                            <a href={`https://tiktok.com/@${user.tiktok.replace('@', '')}`} target="_blank" rel="noreferrer" title="TikTok" style={{ color: '#ff0050', transition: 'transform 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93v6.16c0 3.13-1.13 6.13-3.57 8.09-2.43 1.95-6.19 2.5-9.15 1.05-2.45-1.2-4.11-3.69-4.14-6.42-.1-3.72 2.77-6.9 6.48-7.14V14c-1.58.45-2.88 1.91-2.92 3.52.01 1.25.75 2.51 1.98 2.87 1.79.52 3.86-.49 4.39-2.26.15-.59.18-1.2.18-1.81V.02h2.67z" fill="white"></path></svg>
+                                            </a>
+                                        )}
+                                        {user?.twitter && (
+                                            <a href={`https://twitter.com/${user.twitter.replace('@', '')}`} target="_blank" rel="noreferrer" title="X (Twitter)" style={{ color: '#fff', transition: 'transform 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                                            </a>
+                                        )}
+                                        {user?.facebook && (
+                                            <a href={user.facebook.startsWith('http') ? user.facebook : `https://facebook.com/${user.facebook}`} target="_blank" rel="noreferrer" title="Facebook" style={{ color: '#1877F2', transition: 'transform 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                                            </a>
+                                        )}
+                                        {user?.whatsapp && (
+                                            <a href={`https://wa.me/${user.whatsapp.replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer" title="WhatsApp" style={{ color: '#25D366', transition: 'transform 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                                            </a>
+                                        )}
+                                        {user?.telegram && (
+                                            <a href={`https://t.me/${user.telegram.replace('@', '')}`} target="_blank" rel="noreferrer" title="Telegram" style={{ color: '#229ED9', transition: 'transform 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                            </a>
+                                        )}
+                                    </div>
+
+                                    <button className={styles.editBtn} onClick={() => setIsEditing(true)}>Edit Profile</button>
+                                </>
+                            )}
                         </div>
                     </div>
 
-                    <div className={styles.premiumBadge}>
-                        <span className={styles.badgeIcon}>👑</span>
-                        <span className={styles.badgeText}>{user?.role === 'creator' ? 'Creator' : 'Member'}</span>
-                    </div>
+                    {!loading && (
+                        <div className={styles.premiumBadge}>
+                            <span className={styles.badgeIcon}>👑</span>
+                            <span className={styles.badgeText}>{user?.role === 'creator' ? 'Creator' : 'Member'}</span>
+                        </div>
+                    )}
                 </div>
 
                 {/* Stats Cards */}
                 <div className={styles.statsGrid}>
-                    {stats.map((stat, index) => (
-                        <div key={index} className={styles.statCard}>
-                            <p className={styles.statLabel}>{stat.label}</p>
-                            <h3 className={styles.statValue}>{stat.value}</h3>
-                        </div>
-                    ))}
+                    {loading ? (
+                        Array.from({ length: 5 }).map((_, i) => (
+                            <div key={i} className={styles.statCard}>
+                                <div className="skeleton" style={{ width: '60%', height: '14px', marginBottom: '6px' }} />
+                                <div className="skeleton" style={{ width: '40%', height: '20px' }} />
+                            </div>
+                        ))
+                    ) : (
+                        stats.map((stat, index) => (
+                            <div key={index} className={styles.statCard}>
+                                <p className={styles.statLabel}>{stat.label}</p>
+                                <h3 className={styles.statValue}>{stat.value}</h3>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
 
@@ -179,20 +242,26 @@ export default function ProfilePage() {
                     <h2 style={{ fontSize: '1.8rem', background: 'linear-gradient(to right, #fff, #94a3b8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', margin: 0 }}>
                         My Collection
                     </h2>
-                    <span style={{
-                        background: 'rgba(255,255,255,0.05)',
-                        padding: '4px 12px',
-                        borderRadius: '20px',
-                        fontSize: '0.8rem',
-                        color: '#94a3b8',
-                        border: '1px solid rgba(255,255,255,0.1)'
-                    }}>
-                        {user?.badges?.length || 0} Badges
-                    </span>
+                    {!loading && (
+                        <span style={{
+                            background: 'rgba(255,255,255,0.05)',
+                            padding: '4px 12px',
+                            borderRadius: '20px',
+                            fontSize: '0.8rem',
+                            color: '#94a3b8',
+                            border: '1px solid rgba(255,255,255,0.1)'
+                        }}>
+                            {user?.badges?.length || 0} Badges
+                        </span>
+                    )}
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '1.5rem' }}>
-                    {user?.badges && user.badges.length > 0 ? (
+                    {loading ? (
+                        Array.from({ length: 4 }).map((_, i) => (
+                            <div key={i} className="glass-card skeleton" style={{ height: '300px', borderRadius: '24px' }} />
+                        ))
+                    ) : user?.badges && user.badges.length > 0 ? (
                         user.badges.map((badge, idx) => (
                             <div
                                 key={idx}
@@ -290,7 +359,11 @@ export default function ProfilePage() {
 
                 {/* Submissions Grid */}
                 <div className={styles.submissionsGrid}>
-                    {mySubmissions.map((submission) => (
+                    {loading ? (
+                        Array.from({ length: 3 }).map((_, i) => (
+                            <div key={i} className={`glass-card ${styles.submissionCard} skeleton`} style={{ height: '300px' }} />
+                        ))
+                    ) : mySubmissions.map((submission) => (
                         <div key={submission._id} className={`glass-card ${styles.submissionCard}`}>
                             <div className={styles.submissionImage}>
                                 <Image
@@ -314,7 +387,7 @@ export default function ProfilePage() {
                             </div>
                         </div>
                     ))}
-                    {mySubmissions.length === 0 && (
+                    {!loading && mySubmissions.length === 0 && (
                         <p style={{ padding: '2rem', color: '#888' }}>You haven't submitted anything yet.</p>
                     )}
                 </div>
