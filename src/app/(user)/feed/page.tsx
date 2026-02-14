@@ -289,50 +289,6 @@ export default function FeedPage() {
             <div className={styles.header}>
                 <h1>🌟 Explore Feed</h1>
                 <p>Discover amazing submissions from the community</p>
-
-                {/* Search Bar */}
-                <div style={{ maxWidth: '600px', width: '100%', marginTop: '1.5rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                    <input
-                        type="text"
-                        placeholder="🔍 Search submissions, challenges, users..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        style={{
-                            width: '100%',
-                            padding: '0.875rem 1.25rem',
-                            background: 'rgba(255,255,255,0.05)',
-                            border: '1px solid rgba(255,255,255,0.1)',
-                            borderRadius: '12px',
-                            color: '#fff',
-                            fontSize: '1rem',
-                            outline: 'none',
-                            transition: 'all 0.3s ease'
-                        }}
-                        onFocus={(e) => {
-                            e.target.style.borderColor = 'rgba(99, 102, 241, 0.5)';
-                            e.target.style.background = 'rgba(255,255,255,0.08)';
-                        }}
-                        onBlur={(e) => {
-                            e.target.style.borderColor = 'rgba(255,255,255,0.1)';
-                            e.target.style.background = 'rgba(255,255,255,0.05)';
-                        }}
-                    />
-                    <button
-                        onClick={() => setShowCreateModal(true)}
-                        style={{
-                            padding: '0.875rem 1.5rem',
-                            background: 'var(--accent-gradient, linear-gradient(135deg, #6366f1 0%, #4f46e5 100%))',
-                            border: 'none',
-                            borderRadius: '12px',
-                            color: 'white',
-                            fontWeight: 'bold',
-                            whiteSpace: 'nowrap',
-                            cursor: 'pointer',
-                        }}
-                    >
-                        + Create
-                    </button>
-                </div>
             </div>
 
             {/* Create Challenge Modal */}
