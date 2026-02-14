@@ -67,15 +67,34 @@ export const createChallengeSchema = z.object({
         .trim(),
     category: z.enum(['Fitness', 'Creative', 'Learning', 'Lifestyle', 'Other']),
     image: z.string().url('Invalid image URL'),
+    videoUrl: z.string().url('Invalid video URL').optional().or(z.literal('')),
     badge: z.enum(['Prize', 'Normal']).default('Normal'),
+    status: z.enum(['active', 'upcoming', 'ended']).default('upcoming'),
     startDate: z.string().or(z.date()),
     endDate: z.string().or(z.date()),
-    prize: z
-        .object({
-            amount: z.number().min(0).optional(),
-            description: z.string().optional(),
-        })
-        .optional(),
+
+    // Payment & Prizes
+    isFree: z.boolean().default(true),
+    entryFee: z.number().min(0).optional(),
+    prizeType: z.enum(['MONEY', 'COINS', 'NONE']).default('NONE'),
+    prizePool: z.number().min(0).default(0),
+
+    // Promotion
+    isPromoted: z.boolean().default(false),
+    promotionLevel: z.number().default(0),
+
+    // Restrictions
+    ageRestriction: z.number().min(0).default(0),
+
+    // Location
+    type: z.enum(['VIRTUAL', 'IN_PERSON']).default('VIRTUAL'),
+    location: z.object({
+        address: z.string().optional(),
+        lat: z.number().optional(),
+        lng: z.number().optional(),
+        mapUrl: z.string().optional(),
+    }).optional(),
+
     maxParticipants: z.number().min(1).optional(),
     rules: z.array(z.string()).optional(),
 });

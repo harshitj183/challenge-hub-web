@@ -64,7 +64,7 @@ export default function LandingPage() {
                     <div className={styles.heroCta}>
                         <Link href="/auth/register">
                             <button className={styles.primaryBtn}>
-                                Get Started Free 🚀
+                                Get Started Free ????
                             </button>
                         </Link>
                         <Link href="/auth/login">
@@ -78,15 +78,15 @@ export default function LandingPage() {
                 {/* Floating Cards Animation */}
                 <div className={styles.heroVisual}>
                     <div className={`${styles.floatingCard} ${styles.card1}`}>
-                        <div className={styles.cardIcon}>🎨</div>
+                        <div className={styles.cardIcon}>????</div>
                         <div className={styles.cardText}>Creative Challenges</div>
                     </div>
                     <div className={`${styles.floatingCard} ${styles.card2}`}>
-                        <div className={styles.cardIcon}>🏆</div>
+                        <div className={styles.cardIcon}>????</div>
                         <div className={styles.cardText}>Win Prizes</div>
                     </div>
                     <div className={`${styles.floatingCard} ${styles.card3}`}>
-                        <div className={styles.cardIcon}>👥</div>
+                        <div className={styles.cardIcon}>????</div>
                         <div className={styles.cardText}>Global Community</div>
                     </div>
                 </div>
@@ -97,32 +97,32 @@ export default function LandingPage() {
                 <h2 className={styles.sectionTitle}>Why Join ChallengeSuite?</h2>
                 <div className={styles.featureGrid}>
                     <div className={`glass-card ${styles.featureCard}`}>
-                        <div className={styles.featureIcon}>⚡</div>
+                        <div className={styles.featureIcon}>???</div>
                         <h3>Daily Challenges</h3>
                         <p>New creative challenges every day across photography, art, fitness, and more</p>
                     </div>
                     <div className={`glass-card ${styles.featureCard}`}>
-                        <div className={styles.featureIcon}>🎖️</div>
+                        <div className={styles.featureIcon}>???????</div>
                         <h3>Earn Badges</h3>
                         <p>Unlock achievements and showcase your skills with exclusive badges</p>
                     </div>
                     <div className={`glass-card ${styles.featureCard}`}>
-                        <div className={styles.featureIcon}>📊</div>
+                        <div className={styles.featureIcon}>????</div>
                         <h3>Leaderboards</h3>
                         <p>Compete globally and climb the ranks to become a top creator</p>
                     </div>
                     <div className={`glass-card ${styles.featureCard}`}>
-                        <div className={styles.featureIcon}>💰</div>
+                        <div className={styles.featureIcon}>????</div>
                         <h3>Win Prizes</h3>
                         <p>Participate in premium challenges with cash prizes and rewards</p>
                     </div>
                     <div className={`glass-card ${styles.featureCard}`}>
-                        <div className={styles.featureIcon}>🌟</div>
+                        <div className={styles.featureIcon}>????</div>
                         <h3>Get Discovered</h3>
                         <p>Showcase your work to thousands of community members</p>
                     </div>
                     <div className={`glass-card ${styles.featureCard}`}>
-                        <div className={styles.featureIcon}>🤝</div>
+                        <div className={styles.featureIcon}>????</div>
                         <h3>Community</h3>
                         <p>Connect with like-minded creators and grow together</p>
                     </div>

@@ -31,19 +31,106 @@ export default function Sidebar() {
         }
     };
 
-    const navItems = [
-        { name: 'Home', path: '/dashboard', icon: '🏠' },
-        { name: 'Feed', path: '/feed', icon: '🌟' },
-        { name: 'Challenges', path: '/challenges', icon: '⚔️' },
-        { name: 'Leaderboards', path: '/leaderboards', icon: '🏆' },
-        { name: 'Winners', path: '/winners', icon: '👑' },
+    const navItems: { name: string; path: string; icon: React.ReactNode }[] = [
+        {
+            name: 'Home',
+            path: '/dashboard',
+            icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+            )
+        },
+        {
+            name: 'Feed',
+            path: '/feed',
+            icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                    <line x1="3" y1="9" x2="21" y2="9" />
+                    <line x1="9" y1="21" x2="9" y2="9" />
+                </svg>
+            )
+        },
+        {
+            name: 'Challenges',
+            path: '/challenges',
+            icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="8" r="7" />
+                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+                </svg>
+            )
+        },
+        {
+            name: 'Leaderboards',
+            path: '/leaderboards',
+            icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 20V10" />
+                    <path d="M12 20V4" />
+                    <path d="M6 20v-6" />
+                </svg>
+            )
+        },
+        {
+            name: 'Winners',
+            path: '/winners',
+            icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M8 21h8" />
+                    <path d="M12 17v4" />
+                    <path d="M7 4h10" />
+                    <path d="M9 4v13" />
+                    <path d="M15 4v13" />
+                </svg>
+            )
+        },
     ];
 
     if (session) {
-        navItems.splice(3, 0, { name: 'My Challenges', path: '/my-challenges', icon: '🎯' });
-        navItems.splice(3, 0, { name: 'Create Challenge', path: '/challenges/create', icon: '➕' });
-        navItems.splice(2, 0, { name: 'Favorites', path: '/favorites', icon: '⭐' });
-        navItems.push({ name: 'Profile', path: '/profile', icon: '👤' });
+        navItems.splice(3, 0, {
+            name: 'My Challenges',
+            path: '/my-challenges',
+            icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <circle cx="12" cy="12" r="6" />
+                    <circle cx="12" cy="12" r="2" />
+                </svg>
+            )
+        });
+        navItems.splice(3, 0, {
+            name: 'Create Challenge',
+            path: '/challenges/create',
+            icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                    <line x1="12" y1="8" x2="12" y2="16" />
+                    <line x1="8" y1="12" x2="16" y2="12" />
+                </svg>
+            )
+        });
+        navItems.splice(2, 0, {
+            name: 'Favorites',
+            path: '/favorites',
+            icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+            )
+        });
+        navItems.push({
+            name: 'Profile',
+            path: '/profile',
+            icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg>
+            )
+        });
     }
 
     const closeMobileMenu = () => setMobileOpen(false);

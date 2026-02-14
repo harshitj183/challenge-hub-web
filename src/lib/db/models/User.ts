@@ -24,6 +24,10 @@ export interface IUser extends Document {
         challengesEntered: number;
         challengesWon: number;
     };
+    wallet: {
+        coins: number;
+        balance: number; // For cash/money
+    };
     badges: {
         id: string;
         name: string;
@@ -136,6 +140,16 @@ const UserSchema: Schema<IUser> = new Schema(
                 default: 0,
             },
             challengesWon: {
+                type: Number,
+                default: 0,
+            },
+        },
+        wallet: {
+            coins: {
+                type: Number,
+                default: 0,
+            },
+            balance: {
                 type: Number,
                 default: 0,
             },

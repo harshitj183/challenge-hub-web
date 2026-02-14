@@ -22,11 +22,15 @@ export async function GET(request: NextRequest) {
                     { path: 'challengeId', select: 'title category' }
                 ]
             })
+            .populate({
+                path: 'challengeId',
+                select: 'title category image videoUrl isFree entryFee'
+            })
             .sort({ createdAt: -1 })
             .lean();
 
-        // Filter out favorites where submission was deleted
-        const validFavorites = favorites.filter((fav: any) => fav.submissionId !== null);
+        // Filter out favorites where reference was deleted
+        const validFavorites = favorites.filter((fav: any) => fav.submissionId !== null && (fav.challengeId === undefined || fav.challengeId !== null));
 
         return NextResponse.json({ favorites: validFavorites });
     } catch (error: any) {
@@ -47,11 +51,11 @@ export async function POST(request: NextRequest) {
         }
 
         const body = await request.json();
-        const { submissionId } = body;
+        const { submissionId, challengeId } = body;
 
-        if (!submissionId) {
+        if (!submissionId && !challengeId) {
             return NextResponse.json(
-                { error: 'Submission ID is required' },
+                { error: 'Submission ID or Challenge ID is required' },
                 { status: 400 }
             );
         }
@@ -59,10 +63,11 @@ export async function POST(request: NextRequest) {
         await connectDB();
 
         // Check if already favorited
-        const existing = await Favorite.findOne({
-            userId: session.user.id,
-            submissionId,
-        });
+        const query: any = { userId: session.user.id };
+        if (submissionId) query.submissionId = submissionId;
+        if (challengeId) query.challengeId = challengeId;
+
+        const existing = await Favorite.findOne(query);
 
         if (existing) {
             // Remove from favorites
@@ -73,10 +78,7 @@ export async function POST(request: NextRequest) {
             });
         } else {
             // Add to favorites
-            await Favorite.create({
-                userId: session.user.id,
-                submissionId,
-            });
+            await Favorite.create(query);
             return NextResponse.json({
                 message: 'Added to favorites',
                 action: 'added',
