@@ -60,18 +60,10 @@ import withPWAInit from "@ducanh2912/next-pwa";
 
 const withPWA = withPWAInit({
     dest: "public",
-    cacheOnFrontEndNav: true,
-    aggressiveFrontEndNavCaching: true,
-    reloadOnOnline: true,
-    swcMinify: true,
     disable: process.env.NODE_ENV === "development",
-    workboxOptions: {
-        disableDevLogs: true,
-        importScripts: ["/custom-sw.js"],
-    },
-    // crucial for custom logic
-    extendDefaultHandler: true,
+    // Remove complex caching options for now to fix build
 });
 
 
-export default withPWA(nextConfig);
+// export default withPWA(nextConfig);
+export default nextConfig;

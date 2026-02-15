@@ -65,7 +65,7 @@ export function usePushSubscription() {
                 throw new Error('Permission denied');
             }
 
-            const reg = await navigator.serviceWorker.register('/sw.js');
+            const reg = await navigator.serviceWorker.register('/custom-sw.js');
             await navigator.serviceWorker.ready; // Wait for active
 
             const sub = await reg.pushManager.subscribe({
