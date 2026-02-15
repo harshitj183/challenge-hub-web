@@ -31,6 +31,26 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'i.pravatar.cc',
                 pathname: '**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'lh3.googleusercontent.com',
+                pathname: '**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'avatars.githubusercontent.com',
+                pathname: '**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'cloudflare-ipfs.com',
+                pathname: '**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'avatars.dicebear.com',
+                pathname: '**',
             }
         ],
     },
