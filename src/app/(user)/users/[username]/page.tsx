@@ -162,7 +162,7 @@ export default function PublicProfilePage() {
                 <div className={styles.avatarSection}>
                     <div className={styles.avatarWrapper}>
                         <Image
-                            src={user.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=d4af37&color=000`}
+                            src={user.avatar && user.avatar !== '/default-avatar.png' ? user.avatar : `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=d4af37&color=000`}
                             alt={user.name}
                             fill
                             unoptimized
