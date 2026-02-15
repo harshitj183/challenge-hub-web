@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import PushToggle from '@/components/PushToggle';
 import './Sidebar.css';
 
 export default function Sidebar() {
@@ -197,6 +198,7 @@ export default function Sidebar() {
                         <>
                             {session ? (
                                 <div className="user-section">
+                                    <PushToggle />
                                     <Link href="/subscriptions" className="premium-link" style={{ marginBottom: '1rem', display: 'block', textAlign: 'center' }} onClick={closeMobileMenu}>
                                         💎 Premium
                                     </Link>
