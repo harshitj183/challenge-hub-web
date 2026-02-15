@@ -60,6 +60,7 @@ export default function EditProfileModal({ user, onClose, onUpdate }: EditProfil
             if (file) {
                 const formData = new FormData();
                 formData.append('file', file);
+                formData.append('type', 'image');
 
                 const uploadRes = await fetch('/api/upload', {
                     method: 'POST',
@@ -67,7 +68,8 @@ export default function EditProfileModal({ user, onClose, onUpdate }: EditProfil
                 });
 
                 if (!uploadRes.ok) {
-                    throw new Error('Failed to upload image');
+                    const errorData = await uploadRes.json();
+                    throw new Error(errorData.error || 'Failed to upload image');
                 }
 
                 const uploadData = await uploadRes.json();

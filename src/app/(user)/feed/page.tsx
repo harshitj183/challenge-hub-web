@@ -360,7 +360,7 @@ export default function FeedPage() {
                                                     <Link href={`/users/${challenge.createdBy?.name || 'user'}`}>
                                                         <div className={styles.avatar}>
                                                             <Image
-                                                                src={challenge.createdBy?.avatar || '/default-avatar.png'}
+                                                                src={challenge.createdBy?.avatar && challenge.createdBy.avatar !== '/default-avatar.png' ? challenge.createdBy.avatar : `https://ui-avatars.com/api/?name=${encodeURIComponent(challenge.createdBy?.name || 'User')}&background=random`}
                                                                 alt={challenge.createdBy?.name || 'User'}
                                                                 width={40}
                                                                 height={40}
@@ -488,7 +488,7 @@ export default function FeedPage() {
                                         <Link href={`/users/${challenge.createdBy?.name || 'user'}`}>
                                             <div className={styles.avatar}>
                                                 <Image
-                                                    src={challenge.createdBy?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(challenge.createdBy?.name || 'User')}&background=random`}
+                                                    src={challenge.createdBy?.avatar && challenge.createdBy.avatar !== '/default-avatar.png' ? challenge.createdBy.avatar : `https://ui-avatars.com/api/?name=${encodeURIComponent(challenge.createdBy?.name || 'User')}&background=random`}
                                                     alt={challenge.createdBy?.name || 'User'}
                                                     width={40}
                                                     height={40}
@@ -610,7 +610,7 @@ export default function FeedPage() {
                                     <Link href={`/users/${sub.userId?.username || 'user'}`}>
                                         <div className={styles.avatar}>
                                             <Image
-                                                src={sub.userId?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(sub.userId?.name || 'User')}&background=random`}
+                                                src={sub.userId?.avatar && sub.userId.avatar !== '/default-avatar.png' ? sub.userId.avatar : `https://ui-avatars.com/api/?name=${encodeURIComponent(sub.userId?.name || 'User')}&background=random`}
                                                 alt={sub.userId?.name || 'User'}
                                                 width={32}
                                                 height={32}
