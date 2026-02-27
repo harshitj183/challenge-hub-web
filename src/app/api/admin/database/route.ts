@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
         // 1. List Collections
         if (!collectionName) {
             const collections = await db.listCollections().toArray();
-            const stats = await Promise.all(collections.map(async (c) => {
+            const stats = await Promise.all(collections.map(async (c: any) => {
                 const count = await db.collection(c.name).countDocuments();
                 return { name: c.name, count };
             }));
