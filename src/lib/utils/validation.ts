@@ -3,6 +3,8 @@ import { z } from 'zod';
 // User Registration Schema
 export const registerSchema = z.object({
     name: z
+
+
         .string()
         .min(2, 'Name must be at least 2 characters')
         .max(50, 'Name cannot exceed 50 characters')
@@ -38,10 +40,7 @@ export const updateProfileSchema = z.object({
         .max(50, 'Name cannot exceed 50 characters')
         .trim()
         .optional(),
-    avatar: z
-        .string()
-        .url('Invalid avatar URL')
-        .optional(),
+    avatar: z.string().optional(),
     bio: z.string().max(160, 'Bio too long').optional(),
     location: z.string().max(50).optional(),
     website: z.union([z.string().url('Invalid URL'), z.literal('')]).optional(),
@@ -65,36 +64,50 @@ export const createChallengeSchema = z.object({
         .min(10, 'Description must be at least 10 characters')
         .max(1000, 'Description cannot exceed 1000 characters')
         .trim(),
-    category: z.enum(['Fitness', 'Creative', 'Learning', 'Lifestyle', 'Other']),
-    image: z.string().url('Invalid image URL'),
-    videoUrl: z.string().url('Invalid video URL').optional().or(z.literal('')),
-    badge: z.enum(['Prize', 'Normal']).default('Normal'),
-    status: z.enum(['active', 'upcoming', 'ended']).default('upcoming'),
+    category: z.enum(['Fitness', 'Creative', 'Gaming', 'Learning', 'Lifestyle', 'Other']),
+    challengeType: z.enum(['1v1', 'group', 'tournament']).default('1v1'),
+    teamSize: z.number().min(2).max(10).optional(),
     startDate: z.string().or(z.date()),
     endDate: z.string().or(z.date()),
+    deadlineTime: z.string().or(z.date()),
 
-    // Payment & Prizes
-    isFree: z.boolean().default(true),
+    mediaUrl: z.string().url('Invalid media URL').optional().or(z.literal('')),
+    trailerUrl: z.string().url('Invalid trailer URL').optional().or(z.literal('')),
+    mediaType: z.enum(['image', 'video']).default('image'),
+
+    prizeType: z.enum(['money', 'digital', 'physical', 'NONE']).default('NONE'),
+    prizeDetails: z.string().optional(),
+
+    locationType: z.enum(['online', 'in-person']).default('online'),
+    locationDetails: z.string().optional(),
+
+    isPrivate: z.boolean().default(false),
+    requiresSubscription: z.boolean().default(false),
     entryFee: z.number().min(0).optional(),
-    prizeType: z.enum(['MONEY', 'COINS', 'NONE']).default('NONE'),
-    prizePool: z.number().min(0).default(0),
+    restrictions: z.string().optional(),
 
-    // Promotion
-    isPromoted: z.boolean().default(false),
-    promotionLevel: z.number().default(0),
+    scoringType: z.enum(['best_of_3', 'best_of_5', 'best_of_7', 'points']).optional(),
+    hasTimer: z.boolean().default(false),
+    timerDurationMinutes: z.number().min(1).optional(),
 
-    // Restrictions
-    ageRestriction: z.number().min(0).default(0),
-
-    // Location
-    type: z.enum(['VIRTUAL', 'IN_PERSON']).default('VIRTUAL'),
-    location: z.object({
-        address: z.string().optional(),
-        lat: z.number().optional(),
-        lng: z.number().optional(),
-        mapUrl: z.string().optional(),
+    tournamentDetails: z.object({
+        divisions: z.union([z.literal(2), z.literal(4), z.literal(6)])
     }).optional(),
 
+    sponsorship: z.object({
+        roiPercentage: z.number().min(0).max(100),
+        creatorPercentage: z.number().min(0).max(100),
+        status: z.enum(['pending', 'approved_by_creator', 'approved_by_sponsor', 'active'])
+    }).optional(),
+
+    // Legacy/System Fields
+    badge: z.enum(['Prize', 'Normal']).default('Normal'),
+    status: z.enum(['active', 'upcoming', 'ended']).default('upcoming'),
+    isFree: z.boolean().default(true),
+    prizePool: z.number().min(0).default(0),
+    isPromoted: z.boolean().default(false),
+    promotionLevel: z.number().default(0),
+    ageRestriction: z.number().min(0).default(0),
     maxParticipants: z.number().min(1).optional(),
     rules: z.array(z.string()).optional(),
 });
@@ -123,7 +136,7 @@ export const voteSchema = z.object({
 
 // Subscription Schema
 export const subscribeSchema = z.object({
-    plan: z.enum(['bronze', 'silver', 'gold', 'platinum', 'creator']),
+    plan: z.enum(['observer', 'creator', 'competitor', 'executive_host', 'chief_producer', 'brand_partner', 'enterprise_sponsor']),
     paymentMethodId: z.string().min(1, 'Payment method is required'),
 });
 

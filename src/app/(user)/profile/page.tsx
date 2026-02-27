@@ -55,16 +55,7 @@ export default function ProfilePage() {
     const [loading, setLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
 
-    useEffect(() => {
-        if (session?.user) {
-            fetchProfile();
-            fetchMySubmissions();
-        } else if (status === 'unauthenticated') {
-            setLoading(false);
-        }
-    }, [session, status]);
-
-    const fetchProfile = async () => {
+    async function fetchProfile() {
         try {
             const res = await fetch('/api/users/me');
             if (res.ok) {
@@ -93,9 +84,9 @@ export default function ProfilePage() {
             console.error(e);
         }
         setLoading(false);
-    };
+    }
 
-    const fetchMySubmissions = async () => {
+    async function fetchMySubmissions() {
         try {
             const res = await fetch(`/api/submissions?userId=${session?.user?.id}`);
             const data = await res.json();
@@ -105,11 +96,67 @@ export default function ProfilePage() {
         } catch (error) {
             console.error(error);
         }
-    };
+    }
+
+    useEffect(() => {
+        if (session?.user) {
+            fetchProfile();
+            fetchMySubmissions();
+        } else if (status === 'unauthenticated') {
+            setLoading(false);
+        }
+    }, [session, status]);
+
+
 
     // if (loading) return <div style={{ padding: '2rem' }}>Loading profile...</div>;
 
     if (!session && !loading) return <div style={{ padding: '2rem' }}>Please log in to view profile.</div>;
+
+    const calculateGamificationBadges = (stats: NonNullable<UserData['stats']>) => {
+        const generatedBadges = [];
+        if (stats.totalPoints >= 100) {
+            generatedBadges.push({
+                id: 'b1',
+                name: 'Emerging Voice',
+                description: 'Earned 100 points in the community.',
+                image: 'badge-1.png',
+                dateEarned: new Date()
+            });
+        }
+        if (stats.totalLikes >= 50) {
+            generatedBadges.push({
+                id: 'b2',
+                name: 'Trendsetter',
+                description: 'Received 50 likes on submissions.',
+                image: 'badge-2.png',
+                dateEarned: new Date()
+            });
+        }
+        if (stats.challengesWon >= 1) {
+            generatedBadges.push({
+                id: 'b3',
+                name: 'Champion',
+                description: 'Won at least one challenge.',
+                image: 'badge-3.png',
+                dateEarned: new Date()
+            });
+        }
+        if (stats.totalPoints >= 1000) {
+            generatedBadges.push({
+                id: 'b4',
+                name: 'Legacy Maker',
+                description: 'Achieved 1,000 community points.',
+                image: 'badge-4.png',
+                dateEarned: new Date()
+            });
+        }
+
+        return generatedBadges;
+    };
+
+    const computedBadges = user?.stats ? calculateGamificationBadges(user.stats) : [];
+    const allBadges = [...(user?.badges || []), ...computedBadges];
 
     const stats = [
         { label: 'Total Points', value: user?.stats?.totalPoints?.toLocaleString() || '0' },
@@ -251,7 +298,7 @@ export default function ProfilePage() {
                             color: '#94a3b8',
                             border: '1px solid rgba(255,255,255,0.1)'
                         }}>
-                            {user?.badges?.length || 0} Badges
+                            {allBadges.length} Badges
                         </span>
                     )}
                 </div>
@@ -261,8 +308,8 @@ export default function ProfilePage() {
                         Array.from({ length: 4 }).map((_, i) => (
                             <div key={i} className="glass-card skeleton" style={{ height: '300px', borderRadius: '24px' }} />
                         ))
-                    ) : user?.badges && user.badges.length > 0 ? (
-                        user.badges.map((badge, idx) => (
+                    ) : allBadges.length > 0 ? (
+                        allBadges.map((badge, idx) => (
                             <div
                                 key={idx}
                                 className="glass-card"
@@ -388,7 +435,7 @@ export default function ProfilePage() {
                         </div>
                     ))}
                     {!loading && mySubmissions.length === 0 && (
-                        <p style={{ padding: '2rem', color: '#888' }}>You haven't submitted anything yet.</p>
+                        <p style={{ padding: '2rem', color: '#888' }}>You haven&apos;t submitted anything yet.</p>
                     )}
                 </div>
             </div>

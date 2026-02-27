@@ -12,10 +12,19 @@ export interface IChallenge extends Document {
     startDate: Date;
     endDate: Date;
 
+    challengeType: '1v1' | 'group' | 'tournament';
+    teamSize?: number;
+    deadlineTime: Date;
+    mediaUrl: string;
+    mediaType: 'image' | 'video';
+    trailerUrl?: string;
+
     // Payment & Prizes
     isFree: boolean;
     entryFee?: number;
-    prizeType: 'MONEY' | 'COINS' | 'NONE';
+    prizeType: 'money' | 'digital' | 'physical' | 'NONE';
+    prizeDetails?: string;
+    prizeStatus?: 'pending_approval' | 'approved';
     prizePool: number; // Accumulated prize money
     organizerCommission: number; // percentage (e.g., 15)
 
@@ -24,15 +33,36 @@ export interface IChallenge extends Document {
     promotionLevel?: number;
 
     // Restrictions
+    isPrivate: boolean;
+    requiresSubscription: boolean;
+    restrictions?: string;
     ageRestriction?: number;
 
     // Location & Type
-    type: 'VIRTUAL' | 'IN_PERSON';
-    location?: {
-        address: string;
-        lat?: number;
-        lng?: number;
-        mapUrl?: string;
+    locationType: 'online' | 'in-person';
+    locationDetails?: string;
+
+    // Scoring & Timers
+    scoringType?: 'best_of_3' | 'best_of_5' | 'best_of_7' | 'points';
+    hasTimer: boolean;
+    timerDurationMinutes?: number;
+
+    // Tournaments & Live Events
+    tournamentDetails?: {
+        divisions: 2 | 4 | 6;
+    };
+    liveEventDetails?: {
+        insuranceUploaded: boolean;
+        venueAgreementUploaded: boolean;
+        securityPlanUploaded: boolean;
+    };
+
+    // Sponsorship
+    sponsorship?: {
+        sponsorId: mongoose.Types.ObjectId;
+        roiPercentage: number;
+        creatorPercentage: number;
+        status: 'pending' | 'approved_by_creator' | 'approved_by_sponsor' | 'active';
     };
 
     participants: number;
@@ -63,13 +93,27 @@ const ChallengeSchema: Schema<IChallenge> = new Schema(
         category: {
             type: String,
             required: [true, 'Category is required'],
-            enum: ['Fitness', 'Creative', 'Learning', 'Lifestyle', 'Other'],
+            enum: ['Fitness', 'Creative', 'Gaming', 'Learning', 'Lifestyle', 'Other'],
         },
-        image: {
+        challengeType: {
             type: String,
-            required: [true, 'Image is required'],
+            enum: ['1v1', 'group', 'tournament'],
+            default: '1v1',
         },
-        videoUrl: {
+        teamSize: {
+            type: Number,
+            default: 2,
+        },
+        mediaUrl: {
+            type: String,
+            default: '',
+        },
+        mediaType: {
+            type: String,
+            enum: ['image', 'video'],
+            default: 'image',
+        },
+        trailerUrl: {
             type: String,
             default: '',
         },
@@ -82,6 +126,10 @@ const ChallengeSchema: Schema<IChallenge> = new Schema(
             type: String,
             enum: ['active', 'upcoming', 'ended'],
             default: 'upcoming',
+        },
+        deadlineTime: {
+            type: Date,
+            required: [true, 'Deadline date is required'],
         },
         startDate: {
             type: Date,
@@ -103,8 +151,19 @@ const ChallengeSchema: Schema<IChallenge> = new Schema(
         },
         prizeType: {
             type: String,
-            enum: ['MONEY', 'COINS', 'NONE'],
+            enum: ['money', 'digital', 'physical', 'NONE'],
             default: 'NONE',
+        },
+        prizeDetails: {
+            type: String,
+            default: '',
+        },
+        prizeStatus: {
+            type: String,
+            enum: ['pending_approval', 'approved'],
+            required: function (this: IChallenge) {
+                return this.prizeType === 'physical';
+            }
         },
         prizePool: {
             type: Number,
@@ -126,22 +185,68 @@ const ChallengeSchema: Schema<IChallenge> = new Schema(
         },
 
         // Restrictions
+        isPrivate: {
+            type: Boolean,
+            default: false,
+        },
+        requiresSubscription: {
+            type: Boolean,
+            default: false,
+        },
+        restrictions: {
+            type: String,
+            default: '',
+        },
         ageRestriction: {
             type: Number,
             default: 0, // 0 means no restriction
         },
 
-        // Location & Type
-        type: {
+        locationType: {
             type: String,
-            enum: ['VIRTUAL', 'IN_PERSON'],
-            default: 'VIRTUAL',
+            enum: ['online', 'in-person'],
+            default: 'online',
         },
-        location: {
-            address: String,
-            lat: Number,
-            lng: Number,
-            mapUrl: String,
+        locationDetails: {
+            type: String,
+            default: '',
+        },
+
+        // Scoring & Timers
+        scoringType: {
+            type: String,
+            enum: ['best_of_3', 'best_of_5', 'best_of_7', 'points'],
+        },
+        hasTimer: {
+            type: Boolean,
+            default: false,
+        },
+        timerDurationMinutes: {
+            type: Number,
+        },
+
+        // Tournaments & Live Events
+        tournamentDetails: {
+            divisions: {
+                type: Number,
+                enum: [2, 4, 6],
+            },
+        },
+        liveEventDetails: {
+            insuranceUploaded: { type: Boolean, default: false },
+            venueAgreementUploaded: { type: Boolean, default: false },
+            securityPlanUploaded: { type: Boolean, default: false },
+        },
+
+        // Sponsorship
+        sponsorship: {
+            sponsorId: { type: Schema.Types.ObjectId, ref: 'User' },
+            roiPercentage: { type: Number, min: 0, max: 100 },
+            creatorPercentage: { type: Number, min: 0, max: 100 },
+            status: {
+                type: String,
+                enum: ['pending', 'approved_by_creator', 'approved_by_sponsor', 'active']
+            },
         },
 
         participants: {

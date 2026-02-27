@@ -18,6 +18,8 @@ interface Challenge {
     startDate: string;
     endDate: string;
     createdAt: string;
+    prizeType?: string;
+    isApproved?: boolean;
 }
 
 export default function AdminChallengesPage() {
@@ -72,6 +74,13 @@ export default function AdminChallengesPage() {
             console.error('Error deleting challenge:', error);
             alert('Error deleting challenge');
         }
+    };
+
+    const handleApprovePrize = async (id: string) => {
+        if (!confirm('Approve physical prize for this challenge?')) return;
+        // Mock approval
+        setChallenges(challenges.map(c => c._id === id ? { ...c, isApproved: true } : c));
+        alert('Prize approved!');
     };
 
     const filteredChallenges = challenges.filter(challenge => {
@@ -199,7 +208,25 @@ export default function AdminChallengesPage() {
                                     </span>
                                 </div>
 
-                                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                                    {challenge.prizeType === 'PHYSICAL' && !challenge.isApproved && (
+                                        <button
+                                            onClick={() => handleApprovePrize(challenge._id)}
+                                            style={{
+                                                width: '100%',
+                                                marginBottom: '0.5rem',
+                                                padding: '0.5rem',
+                                                background: 'rgba(212, 175, 55, 0.2)',
+                                                border: '1px solid rgba(212, 175, 55, 0.5)',
+                                                borderRadius: '6px',
+                                                color: 'var(--accent-primary)',
+                                                cursor: 'pointer',
+                                                fontWeight: 600,
+                                            }}
+                                        >
+                                            ⭐ Approve Physical Prize
+                                        </button>
+                                    )}
                                     <button
                                         onClick={() => router.push(`/challenges/${challenge._id}`)}
                                         style={{

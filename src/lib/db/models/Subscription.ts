@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, Model } from 'mongoose';
 
 export interface ISubscription extends Document {
     userId: mongoose.Types.ObjectId;
-    plan: 'bronze' | 'silver' | 'gold' | 'platinum' | 'creator';
+    plan: 'observer' | 'creator' | 'competitor' | 'executive_host' | 'chief_producer' | 'brand_partner' | 'enterprise_sponsor';
     price: number;
     status: 'active' | 'cancelled' | 'expired' | 'past_due';
     stripeSubscriptionId?: string;
@@ -25,7 +25,7 @@ const SubscriptionSchema: Schema<ISubscription> = new Schema(
         },
         plan: {
             type: String,
-            enum: ['bronze', 'silver', 'gold', 'platinum', 'creator'],
+            enum: ['observer', 'creator', 'competitor', 'executive_host', 'chief_producer', 'brand_partner', 'enterprise_sponsor'],
             required: [true, 'Plan is required'],
         },
         price: {

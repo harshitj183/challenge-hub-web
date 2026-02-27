@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import styles from './page.module.css';
-import CreateChallengeModal from '@/components/challenges/CreateChallengeModal';
 import Countdown from '@/components/challenges/Countdown';
 
 interface Challenge {
@@ -56,7 +55,6 @@ export default function FeedPage() {
     const [userChallengeFavorites, setUserChallengeFavorites] = useState<Set<string>>(new Set());
     const [interestedChallenges, setInterestedChallenges] = useState<Set<string>>(new Set());
     const [searchQuery, setSearchQuery] = useState('');
-    const [showCreateModal, setShowCreateModal] = useState(false);
 
     useEffect(() => {
         if (filter === 'challenges') {
@@ -291,16 +289,7 @@ export default function FeedPage() {
                 <p>Discover amazing submissions from the community</p>
             </div>
 
-            {/* Create Challenge Modal */}
-            {showCreateModal && (
-                <CreateChallengeModal
-                    onClose={() => setShowCreateModal(false)}
-                    onSuccess={() => {
-                        fetchChallenges();
-                        setShowCreateModal(false);
-                    }}
-                />
-            )}
+
 
             <div className={styles.feedHeader}>
                 <div className={styles.tabs}>
@@ -334,7 +323,7 @@ export default function FeedPage() {
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
-                    <button className={styles.createBtn} onClick={() => setShowCreateModal(true)}>
+                    <button className={styles.createBtn} onClick={() => router.push('/challenges/create')}>
                         + Create Challenge
                     </button>
                 </div>
@@ -441,7 +430,7 @@ export default function FeedPage() {
                                                             fontWeight: 'bold'
                                                         }}
                                                     >
-                                                        Details & Join
+                                                        Watch Challenge
                                                     </button>
                                                     <button
                                                         onClick={() => handleInterested(challenge._id)}

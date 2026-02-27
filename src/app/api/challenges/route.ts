@@ -93,12 +93,22 @@ export async function POST(request: NextRequest) {
         await connectDB();
 
         // Create challenge
-        const challenge = await Challenge.create({
+        const challengeData = {
             ...validatedData,
             createdBy: session.user.id,
             participants: 0,
             status: 'upcoming',
-        });
+        };
+
+        // Ensure nested objects are properly handled if not provided
+        if (validatedData.tournamentDetails?.divisions) {
+            (challengeData as any).tournamentDetails = validatedData.tournamentDetails;
+        }
+        if (validatedData.sponsorship?.roiPercentage !== undefined) {
+            (challengeData as any).sponsorship = validatedData.sponsorship;
+        }
+
+        const challenge = await Challenge.create(challengeData);
 
         // Populate creator info
         await challenge.populate('createdBy', 'name email avatar');

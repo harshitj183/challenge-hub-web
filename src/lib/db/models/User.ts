@@ -18,11 +18,14 @@ export interface IUser extends Document {
     role: 'user' | 'admin' | 'creator';
     isPremium: boolean;
     premiumExpiry?: Date;
+    subscriptionTier: 'observer' | 'creator' | 'competitor' | 'executive_host' | 'chief_producer' | 'brand_partner' | 'enterprise_sponsor';
+    isVerifiedHost: boolean;
     stats: {
         totalPoints: number;
         badgesCollected: number;
         challengesEntered: number;
         challengesWon: number;
+        totalVotesCast: number;
     };
     wallet: {
         coins: number;
@@ -37,6 +40,7 @@ export interface IUser extends Document {
     }[];
     createdAt: Date;
     updatedAt: Date;
+    pushSubscription?: string; // stringified JSON push subscription
 }
 
 const UserSchema: Schema<IUser> = new Schema(
@@ -126,6 +130,15 @@ const UserSchema: Schema<IUser> = new Schema(
             type: Date,
             default: null,
         },
+        subscriptionTier: {
+            type: String,
+            enum: ['observer', 'creator', 'competitor', 'executive_host', 'chief_producer', 'brand_partner', 'enterprise_sponsor'],
+            default: 'observer',
+        },
+        isVerifiedHost: {
+            type: Boolean,
+            default: false,
+        },
         stats: {
             totalPoints: {
                 type: Number,
@@ -143,6 +156,10 @@ const UserSchema: Schema<IUser> = new Schema(
                 type: Number,
                 default: 0,
             },
+            totalVotesCast: {
+                type: Number,
+                default: 0,
+            }
         },
         wallet: {
             coins: {
@@ -164,6 +181,11 @@ const UserSchema: Schema<IUser> = new Schema(
                 default: Date.now,
             }
         }],
+        pushSubscription: {
+            type: String,
+            default: null,
+            select: false, // keep it private
+        }
     },
     {
         timestamps: true,

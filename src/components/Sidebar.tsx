@@ -14,13 +14,7 @@ export default function Sidebar() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [currentUser, setCurrentUser] = useState<any>(null);
 
-    useEffect(() => {
-        if (session) {
-            fetchLatestUser();
-        }
-    }, [session]);
-
-    const fetchLatestUser = async () => {
+    async function fetchLatestUser() {
         try {
             const res = await fetch('/api/users/me');
             if (res.ok) {
@@ -30,7 +24,15 @@ export default function Sidebar() {
         } catch (error) {
             console.error('Error fetching latest user:', error);
         }
-    };
+    }
+
+    useEffect(() => {
+        if (session) {
+            fetchLatestUser();
+        }
+    }, [session]);
+
+
 
     const navItems: { name: string; path: string; icon: React.ReactNode }[] = [
         {
@@ -65,6 +67,17 @@ export default function Sidebar() {
             )
         },
         {
+            name: 'Live Events',
+            path: '/live-events',
+            icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Z" />
+                    <circle cx="12" cy="12" r="3" fill="currentColor" />
+                    <path d="M12 12m-6 0a6 6 0 1 0 12 0a6 6 0 1 0 -12 0" />
+                </svg>
+            )
+        },
+        {
             name: 'Leaderboards',
             path: '/leaderboards',
             icon: (
@@ -72,6 +85,16 @@ export default function Sidebar() {
                     <path d="M18 20V10" />
                     <path d="M12 20V4" />
                     <path d="M6 20v-6" />
+                </svg>
+            )
+        },
+        {
+            name: 'Tournaments',
+            path: '/tournaments',
+            icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="8" r="7" />
+                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
                 </svg>
             )
         },

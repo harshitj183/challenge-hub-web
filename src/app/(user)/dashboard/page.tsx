@@ -103,9 +103,14 @@ export default function Dashboard() {
             )}
           </p>
         </div>
-        <Link href="/challenges">
-          <button className="btn-primary">+ Find Challenge</button>
-        </Link>
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          <Link href="/challenges">
+            <button className="btn-primary" style={{ background: 'transparent', border: '1px solid var(--accent-primary)', color: 'var(--text-primary)' }}>Find Challenge</button>
+          </Link>
+          <Link href="/challenges/create">
+            <button className="btn-primary">+ Create Challenge</button>
+          </Link>
+        </div>
       </header>
 
       {/* Enhanced KPI Row */}

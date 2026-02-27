@@ -1,0 +1,462 @@
+﻿
+> photobox_web@0.1.0 lint
+> eslint
+
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\next.config.mjs
+  61:7  warning  'withPWA' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\public\sw.js
+  16:7   warning  'registry' is never reassigned. Use 'const' instead  prefer-const
+  40:15  warning  'promise' is never reassigned. Use 'const' instead   prefer-const
+  55:9   warning  'exports' is never reassigned. Use 'const' instead   prefer-const
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\public\workbox-631a4576.js
+     3:5   error    Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+     5:7   warning  Expected an assignment or function call and instead saw an expression                                                @typescript-eslint/no-unused-expressions
+     6:14  warning  'e' is defined but never used                                                                                        @typescript-eslint/no-unused-vars
+    52:7   error    Definition for rule '@typescript-eslint/ban-types' was not found                                                     @typescript-eslint/ban-types
+   419:5   error    Definition for rule '@typescript-eslint/ban-types' was not found                                                     @typescript-eslint/ban-types
+   435:5   warning  Unused eslint-disable directive (no problems were reported)
+   456:5   error    Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+   458:7   warning  Expected an assignment or function call and instead saw an expression                                                @typescript-eslint/no-unused-expressions
+   459:14  warning  'e' is defined but never used                                                                                        @typescript-eslint/no-unused-vars
+   752:11  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-unsafe-member-access')
+   754:13  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-unsafe-assignment')
+   948:11  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-unsafe-assignment')
+   964:13  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-unsafe-assignment')
+   970:13  warning  Unused eslint-disable directive (no problems were reported)
+  1185:5   error    Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  1187:7   warning  Expected an assignment or function call and instead saw an expression                                                @typescript-eslint/no-unused-expressions
+  1188:14  warning  'e' is defined but never used                                                                                        @typescript-eslint/no-unused-vars
+  1346:5   error    Definition for rule '@typescript-eslint/ban-types' was not found                                                     @typescript-eslint/ban-types
+  1738:35  warning  Unused eslint-disable directive (no problems were reported)
+  2076:18  warning  'error' is defined but never used                                                                                    @typescript-eslint/no-unused-vars
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\scripts\test_auth_logic.js
+  1:18  warning  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+  2:16  warning  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\scripts\test_mongo_direct.js
+  1:18  warning  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\scripts\verify_backend.js
+   1:7   warning  'http' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   1:14  warning  A `require()` style import is forbidden    @typescript-eslint/no-require-imports
+  26:23  warning  'text' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(admin)\admin\analytics\page.tsx
+  34:8   warning  React Hook useEffect has a missing dependency: 'fetchAnalytics'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  45:47  warning  'submissionsData' is assigned a value but never used                                                               @typescript-eslint/no-unused-vars
+  52:82  warning  Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+  53:84  warning  Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+  54:81  warning  Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+  58:52  warning  Unexpected any. Specify a different type                                                                           @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(admin)\admin\challenges\create\page.tsx
+  10:19  warning  'session' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  59:18  warning  'err' is defined but never used               @typescript-eslint/no-unused-vars
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(admin)\admin\challenges\edit\[id]\page.tsx
+  15:19  warning  'session' is assigned a value but never used                                                                       @typescript-eslint/no-unused-vars
+  34:8   warning  React Hook useEffect has a missing dependency: 'fetchChallenge'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  57:18  warning  'err' is defined but never used                                                                                    @typescript-eslint/no-unused-vars
+  97:18  warning  'err' is defined but never used                                                                                    @typescript-eslint/no-unused-vars
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(admin)\admin\database\page.tsx
+   24:48  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   25:64  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+   27:52  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  116:21  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  146:18  warning  'e' is defined but never used                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+  152:33  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  182:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(admin)\admin\winners\page.tsx
+  53:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  54:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  54:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\challenges\[id]\page.tsx
+   70:8   warning  React Hook useEffect has missing dependencies: 'fetchSubmissions' and 'fetchUserVotes'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  136:43  warning  Unexpected any. Specify a different type                                                                                                    @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\challenges\create\page.tsx
+   9:19  warning  'session' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  86:23  warning  Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\dashboard\page.tsx
+   11:44  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   12:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   13:50  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   14:56  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   44:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  183:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  345:57  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\feed\page.tsx
+   70:8   warning  React Hook useEffect has missing dependencies: 'fetchChallenges', 'fetchSubmissions', 'fetchUserFavorites', and 'fetchUserVotes'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  103:21  warning  'sorted' is never reassigned. Use 'const' instead                                                                                                                                     prefer-const
+  133:43  warning  Unexpected any. Specify a different type                                                                                                                                              @typescript-eslint/no-explicit-any
+  198:46  warning  Unexpected any. Specify a different type                                                                                                                                              @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\leaderboards\page.tsx
+  25:8  warning  React Hook useEffect has a missing dependency: 'fetchLeaderboard'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\live-events\page.tsx
+  107:32  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\live-events\page.tsx:107:32
+  105 |     return (
+  106 |         <div className={styles.container}>
+> 107 |             {showHostModal && <HostApplicationModal setShowHostModal={setShowHostModal} />}
+      |                                ^^^^^^^^^^^^^^^^^^^^ This component is created during render
+  108 |
+  109 |             <div className={styles.header}>
+  110 |                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\live-events\page.tsx:61:34
+   59 |     }, []);
+   60 |
+>  61 |     const HostApplicationModal = ({ setShowHostModal }: { setShowHostModal: (show: boolean) => void }) => (
+      |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  62 |         <div className={styles.modalOverlay}>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  63 |             <div className={styles.modalContent}>
+      ΓÇª
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 102 |         </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 103 |     );
+      | ^^^^^^ The component is created during render here
+  104 |
+  105 |     return (
+  106 |         <div className={styles.container}>  react-hooks/static-components
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\my-challenges\page.tsx
+  34:54  warning  Unexpected any. Specify a different type                                                                              @typescript-eslint/no-explicit-any
+  42:8   warning  React Hook useEffect has a missing dependency: 'fetchMyChallenges'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\profile\page.tsx
+  60:13  error    Error: Cannot access variable before it is declared
+
+`fetchProfile` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\profile\page.tsx:60:13
+  58 |     useEffect(() => {
+  59 |         if (session?.user) {
+> 60 |             fetchProfile();
+     |             ^^^^^^^^^^^^ `fetchProfile` accessed before it is declared
+  61 |             fetchMySubmissions();
+  62 |         } else if (status === 'unauthenticated') {
+  63 |             setLoading(false);
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\profile\page.tsx:67:5
+  65 |     }, [session, status]);
+  66 |
+> 67 |     async function fetchProfile() {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 68 |         try {
+     | ^^^^^^^^^^^^^
+> 69 |             const res = await fetch('/api/users/me');
+     ΓÇª
+     | ^^^^^^^^^^^^^
+> 95 |         setLoading(false);
+     | ^^^^^^^^^^^^^
+> 96 |     };
+     | ^^^^^^ `fetchProfile` is declared here
+  97 |
+  98 |     async function fetchMySubmissions() {
+  99 |         try {                                                                  react-hooks/immutability
+  61:13  error    Error: Cannot access variable before it is declared
+
+`fetchMySubmissions` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\profile\page.tsx:61:13
+  59 |         if (session?.user) {
+  60 |             fetchProfile();
+> 61 |             fetchMySubmissions();
+     |             ^^^^^^^^^^^^^^^^^^ `fetchMySubmissions` accessed before it is declared
+  62 |         } else if (status === 'unauthenticated') {
+  63 |             setLoading(false);
+  64 |         }
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\profile\page.tsx:98:5
+   96 |     };
+   97 |
+>  98 |     async function fetchMySubmissions() {
+      |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  99 |         try {
+      | ^^^^^^^^^^^^^
+> 100 |             const res = await fetch(`/api/submissions?userId=${session?.user?.id}`);
+      ΓÇª
+      | ^^^^^^^^^^^^^
+> 107 |         }
+      | ^^^^^^^^^^^^^
+> 108 |     };
+      | ^^^^^^ `fetchMySubmissions` is declared here
+  109 |
+  110 |     // if (loading) return <div style={{ padding: '2rem' }}>Loading profile...</div>;
+  111 |  react-hooks/immutability
+  65:8   warning  React Hook useEffect has missing dependencies: 'fetchMySubmissions' and 'fetchProfile'. Either include them or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/exhaustive-deps
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\submissions\[id]\page.tsx
+  47:8   warning  React Hook useEffect has missing dependencies: 'checkUserFavorite', 'checkUserVote', 'fetchComments', and 'fetchSubmission'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  80:51  warning  Unexpected any. Specify a different type                                                                                                                                         @typescript-eslint/no-explicit-any
+  95:59  warning  Unexpected any. Specify a different type                                                                                                                                         @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\tournaments\page.tsx
+   2:20  warning  'useEffect' is defined but never used                @typescript-eslint/no-unused-vars
+  23:25  warning  'setBracketData' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\users\[username]\page.tsx
+  25:13  warning  Unexpected any. Specify a different type                                                                              @typescript-eslint/no-explicit-any
+  26:12  warning  Unexpected any. Specify a different type                                                                              @typescript-eslint/no-explicit-any
+  53:8   warning  React Hook useEffect has a missing dependency: 'fetchUserProfile'. Either include it or remove the dependency array   react-hooks/exhaustive-deps
+  59:8   warning  React Hook useEffect has a missing dependency: 'checkFollowStatus'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  83:54  warning  Unexpected any. Specify a different type                                                                              @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\(user)\winners\page.tsx
+  33:12  warning  'filter' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  33:20  warning  'setFilter' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  54:25  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  62:37  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  63:35  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+  63:43  warning  Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\admin\database\route.ts
+   70:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   97:18  warning  'e' is defined but never used             @typescript-eslint/no-unused-vars
+  102:17  warning  '_id' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  105:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  111:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  138:18  warning  'e' is defined but never used             @typescript-eslint/no-unused-vars
+  142:71  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  145:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\admin\stats\route.ts
+   9:27  warning  'request' is defined but never used       @typescript-eslint/no-unused-vars
+  87:38  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  88:61  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  93:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\auth\register\route.ts
+  59:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\challenges\[id]\route.ts
+   34:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   89:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  130:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\challenges\route.ts
+   23:19  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   31:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   63:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  105:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  108:31  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  123:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\comments\route.ts
+   28:49  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   31:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   75:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  126:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\cron\notifications\route.ts
+  16:27  warning  'req' is defined but never used           @typescript-eslint/no-unused-vars
+  47:52  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\debug-badge\route.ts
+  19:47  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  34:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\debug-login\route.ts
+  39:17  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\debug-sync\route.ts
+   1:10  warning  'NextRequest' is defined but never used   @typescript-eslint/no-unused-vars
+  17:41  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  18:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  28:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\debug-users\route.ts
+   1:10  warning  'NextRequest' is defined but never used   @typescript-eslint/no-unused-vars
+  24:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\debug\session\route.ts
+   6:27  warning  'request' is defined but never used       @typescript-eslint/no-unused-vars
+  21:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\favorites\route.ts
+   8:27  warning  'request' is defined but never used       @typescript-eslint/no-unused-vars
+  33:55  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  36:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  66:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  87:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\follow\route.ts
+    5:8   warning  'User' is defined but never used          @typescript-eslint/no-unused-vars
+   30:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   36:39  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   49:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  109:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\leaderboards\route.ts
+  17:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  51:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  92:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\migrate-usernames\route.ts
+   6:27  warning  'request' is defined but never used       @typescript-eslint/no-unused-vars
+  26:29  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  36:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\push\send\route.ts
+  7:19  warning  'sendPushNotification' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\repair-system\route.ts
+   1:10  warning  'NextRequest' is defined but never used   @typescript-eslint/no-unused-vars
+   5:8   warning  'Follow' is defined but never used        @typescript-eslint/no-unused-vars
+  64:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\search\route.ts
+  24:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  85:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\seed\route.ts
+   80:16   warning  'admin' is assigned a value but never used                 @typescript-eslint/no-unused-vars
+   83:48   warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+  301:32   warning  'yogaChallenge' is assigned a value but never used         @typescript-eslint/no-unused-vars
+  301:62   warning  'artChallenge' is assigned a value but never used          @typescript-eslint/no-unused-vars
+  301:76   warning  'sunsetChallenge' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  301:93   warning  'fitnessChallenge' is assigned a value but never used      @typescript-eslint/no-unused-vars
+  301:111  warning  'homeDecorChallenge' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  301:145  warning  'veganChallenge' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  301:161  warning  'abstractChallenge' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  301:202  warning  'streetFoodChallenge' is assigned a value but never used   @typescript-eslint/no-unused-vars
+  301:223  warning  'sustainableChallenge' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  301:245  warning  'macroChallenge' is assigned a value but never used        @typescript-eslint/no-unused-vars
+  301:277  warning  'coffeeChallenge' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  304:50   warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+  431:31   warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+  461:21   warning  Unexpected any. Specify a different type                   @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\stats\route.ts
+   8:27  warning  'request' is defined but never used       @typescript-eslint/no-unused-vars
+  32:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\submissions\route.ts
+   26:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   59:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  164:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\trending\route.ts
+  16:13  warning  'startDate' is never reassigned. Use 'const' instead  prefer-const
+  48:21  warning  Unexpected any. Specify a different type              @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\upload\route.ts
+  67:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\users\[username]\route.ts
+  11:14  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  76:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\users\me\route.ts
+  12:27  warning  'request' is defined but never used       @typescript-eslint/no-unused-vars
+  50:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  86:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\api\votes\route.ts
+   74:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   92:27  warning  'request' is defined but never used       @typescript-eslint/no-unused-vars
+  107:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\auth\login\page.tsx
+  48:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\auth\register\page.tsx
+  50:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\app\landing\page.tsx
+  3:8  warning  'Image' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\components\ShareButton.tsx
+  19:15  warning  'encodedDescription' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\components\Sidebar.tsx
+  15:52  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  19:13  error    Error: Cannot access variable before it is declared
+
+`fetchLatestUser` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\components\Sidebar.tsx:19:13
+  17 |     useEffect(() => {
+  18 |         if (session) {
+> 19 |             fetchLatestUser();
+     |             ^^^^^^^^^^^^^^^ `fetchLatestUser` accessed before it is declared
+  20 |         }
+  21 |     }, [session]);
+  22 |
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\components\Sidebar.tsx:23:5
+  21 |     }, [session]);
+  22 |
+> 23 |     async function fetchLatestUser() {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 24 |         try {
+     | ^^^^^^^^^^^^^
+> 25 |             const res = await fetch('/api/users/me');
+     ΓÇª
+     | ^^^^^^^^^^^^^
+> 32 |         }
+     | ^^^^^^^^^^^^^
+> 33 |     }
+     | ^^^^^^ `fetchLatestUser` is declared here
+  34 |
+  35 |     const navItems: { name: string; path: string; icon: React.ReactNode }[] = [
+  36 |         {  react-hooks/immutability
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\components\challenges\CreateChallengeModal.tsx
+    4:8   warning  'Image' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   13:12  warning  'step' is assigned a value but never used                                                                                                                                                                                                                                                @typescript-eslint/no-unused-vars
+   13:18  warning  'setStep' is assigned a value but never used                                                                                                                                                                                                                                             @typescript-eslint/no-unused-vars
+   51:49  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  119:23  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  181:55  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\components\challenges\SubmissionModal.tsx
+  77:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\components\profile\EditProfileModal.tsx
+  115:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\hooks\usePushSubscription.ts
+  43:22  warning  'e' is defined but never used             @typescript-eslint/no-unused-vars
+  91:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\lib\auth\authOptions.ts
+  58:33  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\lib\badges.ts
+  49:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\lib\db\mongodb.ts
+  13:24  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\lib\push.ts
+  17:58  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  25:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  25:60  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\lib\utils\cloudinary.ts
+  38:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  55:21  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\harsh\Downloads\Photobox\photobox_web\src\middleware.ts
+  5:25  warning  'req' is defined but never used  @typescript-eslint/no-unused-vars
+
+Γ£û 208 problems (10 errors, 198 warnings)
+  0 errors and 12 warnings potentially fixable with the `--fix` option.
+

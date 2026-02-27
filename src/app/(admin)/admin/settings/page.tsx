@@ -16,6 +16,9 @@ export default function AdminSettingsPage() {
         allowRegistration: true,
         requireEmailVerification: false,
         enablePrizes: true,
+        platformFeePercent: 15,
+        platformRules: '1. Original content only.\n2. No NSFW content.\n3. Follow the theme.',
+        requirePhysicalPrizeApproval: true,
     });
 
     useEffect(() => {
@@ -183,6 +186,68 @@ export default function AdminSettingsPage() {
                                 style={{ width: '20px', height: '20px', cursor: 'pointer' }}
                             />
                             <span>Enable Prize Challenges</span>
+                        </label>
+                    </div>
+                </div>
+
+                {/* Financial & Policy Settings */}
+                <div className="glass-card" style={{ padding: '2rem' }}>
+                    <h3 style={{ marginBottom: '1.5rem' }}>💰 Financial & Policy Rules</h3>
+                    <div style={{ display: 'grid', gap: '1.5rem' }}>
+                        <div>
+                            <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+                                Platform Fee / Commission (%)
+                            </label>
+                            <input
+                                type="number"
+                                value={settings.platformFeePercent}
+                                onChange={(e) => setSettings({ ...settings, platformFeePercent: Number(e.target.value) })}
+                                style={{
+                                    width: '200px',
+                                    padding: '0.75rem 1rem',
+                                    background: 'rgba(0,0,0,0.2)',
+                                    border: '1px solid rgba(255,255,255,0.1)',
+                                    borderRadius: '8px',
+                                    color: 'white',
+                                }}
+                            />
+                            <p style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                                This determines the admin cut. (e.g., 15% admin fee, leaving 85% to the prize pool winner).
+                            </p>
+                        </div>
+
+                        <div>
+                            <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+                                Standard Platform Rules
+                            </label>
+                            <textarea
+                                value={settings.platformRules}
+                                onChange={(e) => setSettings({ ...settings, platformRules: e.target.value })}
+                                rows={4}
+                                style={{
+                                    width: '100%',
+                                    padding: '0.75rem 1rem',
+                                    background: 'rgba(0,0,0,0.2)',
+                                    border: '1px solid rgba(255,255,255,0.1)',
+                                    borderRadius: '8px',
+                                    color: 'white',
+                                    resize: 'vertical',
+                                    fontFamily: 'inherit',
+                                }}
+                            />
+                            <p style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                                These rules will be shown globally on all challenges.
+                            </p>
+                        </div>
+
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer' }}>
+                            <input
+                                type="checkbox"
+                                checked={settings.requirePhysicalPrizeApproval}
+                                onChange={(e) => setSettings({ ...settings, requirePhysicalPrizeApproval: e.target.checked })}
+                                style={{ width: '20px', height: '20px', cursor: 'pointer' }}
+                            />
+                            <span>Require Admin Approval for Physical Product Prizes</span>
                         </label>
                     </div>
                 </div>

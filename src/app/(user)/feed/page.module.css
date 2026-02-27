@@ -61,9 +61,9 @@
 }
 
 .tab.active {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    background: var(--gradient-main);
+    color: black;
+    box-shadow: 0 4px 12px var(--accent-glow);
 }
 
 /* Controls (Search & Create) */
@@ -86,9 +86,9 @@
 }
 
 .searchBar:focus-within {
-    border-color: #6366f1;
+    border-color: var(--accent-primary);
     background: rgba(20, 20, 20, 0.9);
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
 }
 
 .searchIcon {
@@ -106,8 +106,8 @@
 }
 
 .createBtn {
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-    color: #fff;
+    background: var(--gradient-main);
+    color: black;
     border: none;
     padding: 0.75rem 1.5rem;
     border-radius: 14px;
@@ -118,12 +118,12 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 15px var(--accent-glow);
 }
 
 .createBtn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
     filter: brightness(1.1);
 }
 
@@ -179,7 +179,7 @@
 }
 
 .card:hover .avatar {
-    border-color: #6366f1;
+    border-color: var(--accent-primary);
 }
 
 .avatar img {
@@ -203,7 +203,7 @@
 }
 
 .username:hover {
-    color: #6366f1;
+    color: var(--accent-primary);
 }
 
 .time {
@@ -212,16 +212,16 @@
 }
 
 .badge {
-    background: rgba(99, 102, 241, 0.1);
-    color: #a5b4fc;
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--accent-primary);
     padding: 6px 12px;
     border-radius: 12px;
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border: 1px solid rgba(99, 102, 241, 0.2);
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.1);
 }
 
 /* Media */

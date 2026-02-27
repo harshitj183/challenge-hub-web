@@ -35,8 +35,8 @@
 }
 
 .filterTab.active {
-    background: #4f46e5;
-    color: white;
+    background: var(--accent-primary);
+    color: black;
 }
 
 /* Challenges Grid */
@@ -56,13 +56,13 @@
 
 .challengeCard:hover {
     transform: translateY(-6px);
-    box-shadow: 0 12px 32px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 12px 32px var(--accent-glow);
 }
 
 .challengeImage {
     position: relative;
     height: 180px;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(252, 226, 5, 0.2) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -89,8 +89,8 @@
 }
 
 .badge.normal {
-    background: #3b82f6;
-    color: white;
+    background: var(--accent-secondary);
+    color: black;
 }
 
 .completedBadge {
@@ -167,8 +167,8 @@
 
 .actionBtn {
     width: 100%;
-    background: #4f46e5;
-    color: white;
+    background: var(--gradient-main);
+    color: black;
     border: none;
     padding: 0.75rem;
     border-radius: var(--radius-md);
@@ -178,7 +178,7 @@
 }
 
 .actionBtn:hover {
-    background: #4338ca;
+    filter: brightness(1.1);
 }
 
 .emptyState {
