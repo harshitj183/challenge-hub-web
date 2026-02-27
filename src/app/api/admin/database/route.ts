@@ -22,7 +22,10 @@ async function checkAdmin() {
 export async function GET(request: NextRequest) {
     try {
         await checkAdmin();
-        await ensureConnection();
+        const conn = await connectDB();
+        const db = conn.connection.db;
+
+        if (!db) throw new Error('Database not connected');
 
         const { searchParams } = new URL(request.url);
         const collectionName = searchParams.get('collection');
@@ -30,10 +33,9 @@ export async function GET(request: NextRequest) {
 
         // 1. List Collections
         if (!collectionName) {
-            if (!mongoose.connection.db) throw new Error('Database not connected');
-            const collections = await mongoose.connection.db.listCollections().toArray();
+            const collections = await db.listCollections().toArray();
             const stats = await Promise.all(collections.map(async (c) => {
-                const count = await mongoose.connection.db?.collection(c.name).countDocuments();
+                const count = await db.collection(c.name).countDocuments();
                 return { name: c.name, count };
             }));
 
@@ -41,8 +43,7 @@ export async function GET(request: NextRequest) {
         }
 
         // 2. List Documents provided a collection
-        if (!mongoose.connection.db) throw new Error('Database not connected');
-        const collection = mongoose.connection.db.collection(collectionName);
+        const collection = db.collection(collectionName);
 
         if (countOnly) {
             const count = await collection.countDocuments();
@@ -78,8 +79,6 @@ export async function GET(request: NextRequest) {
 export async function PUT(request: NextRequest) {
     try {
         await checkAdmin();
-        await ensureConnection();
-
         const body = await request.json();
         const { collection: collectionName, id, data } = body;
 
@@ -87,8 +86,11 @@ export async function PUT(request: NextRequest) {
             return NextResponse.json({ error: 'Missing parameters' }, { status: 400 });
         }
 
-        if (!mongoose.connection.db) throw new Error('Database not connected');
-        const collection = mongoose.connection.db.collection(collectionName);
+        const conn = await connectDB();
+        const db = conn.connection.db;
+
+        if (!db) throw new Error('Database not connected');
+        const collection = db.collection(collectionName);
 
         // Try to create an ObjectId, otherwise assume string ID
         let queryId;
@@ -119,8 +121,6 @@ export async function PUT(request: NextRequest) {
 export async function DELETE(request: NextRequest) {
     try {
         await checkAdmin();
-        await ensureConnection();
-
         const { searchParams } = new URL(request.url);
         const collectionName = searchParams.get('collection');
         const id = searchParams.get('id');
@@ -129,8 +129,11 @@ export async function DELETE(request: NextRequest) {
             return NextResponse.json({ error: 'Missing parameters' }, { status: 400 });
         }
 
-        if (!mongoose.connection.db) throw new Error('Database not connected');
-        const collection = mongoose.connection.db.collection(collectionName);
+        const conn = await connectDB();
+        const db = conn.connection.db;
+
+        if (!db) throw new Error('Database not connected');
+        const collection = db.collection(collectionName);
 
         let queryId;
         try {
