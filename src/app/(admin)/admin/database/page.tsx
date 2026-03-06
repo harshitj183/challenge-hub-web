@@ -165,8 +165,8 @@ export default function DatabasePage() {
                 className="glass-card-hover"
                 style={{
                     padding: '0.75rem',
-                    background: isSelected ? 'rgba(99, 102, 241, 0.2)' : 'rgba(255,255,255,0.03)',
-                    border: isSelected ? '1px solid #6366f1' : '1px solid rgba(255,255,255,0.05)',
+                    background: isSelected ? 'rgba(212, 175, 55, 0.2)' : 'rgba(255,255,255,0.03)',
+                    border: isSelected ? '1px solid var(--accent-primary)' : '1px solid rgba(255,255,255,0.05)',
                     borderRadius: '8px',
                     cursor: 'pointer',
                     display: 'flex',
@@ -184,7 +184,7 @@ export default function DatabasePage() {
                 )}
 
                 <div style={{ flex: 1, overflow: 'hidden' }}>
-                    <div style={{ fontWeight: 500, color: isSelected ? 'white' : '#e2e8f0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    <div style={{ fontWeight: 500, color: isSelected ? 'var(--accent-primary)' : '#e2e8f0', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         {title}
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '2px' }}>
@@ -207,8 +207,8 @@ export default function DatabasePage() {
                         <h1 className="text-gradient">Database Manager</h1>
                         <p style={{ color: 'var(--text-secondary)' }}>Directly manipulate database records</p>
                     </div>
-                    <div style={{ padding: '0.5rem 1rem', background: 'rgba(99, 102, 241, 0.1)', borderRadius: '20px', border: '1px solid rgba(99, 102, 241, 0.2)' }}>
-                        <span style={{ color: '#818cf8', fontSize: '0.9rem' }}>🔑 Admin Access Authenticated</span>
+                    <div style={{ padding: '0.5rem 1rem', background: 'rgba(212, 175, 55, 0.1)', borderRadius: '20px', border: '1px solid rgba(212, 175, 55, 0.2)' }}>
+                        <span style={{ color: 'var(--accent-primary)', fontSize: '0.9rem' }}>🔑 Admin Access Authenticated</span>
                     </div>
                 </div>
             </header>
@@ -229,8 +229,8 @@ export default function DatabasePage() {
                                     width: '100%',
                                     textAlign: 'left',
                                     padding: '0.75rem 1rem',
-                                    background: selectedCollection === col.name ? 'linear-gradient(90deg, rgba(99, 102, 241, 0.2) 0%, rgba(99, 102, 241, 0) 100%)' : 'transparent',
-                                    borderLeft: selectedCollection === col.name ? '3px solid #6366f1' : '3px solid transparent',
+                                    background: selectedCollection === col.name ? 'linear-gradient(90deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0) 100%)' : 'transparent',
+                                    borderLeft: selectedCollection === col.name ? '3px solid var(--accent-primary)' : '3px solid transparent',
                                     borderTop: 'none', borderRight: 'none', borderBottom: 'none',
                                     color: selectedCollection === col.name ? 'white' : '#cbd5e1',
                                     cursor: 'pointer',
@@ -304,7 +304,7 @@ export default function DatabasePage() {
                     <div style={{ padding: '0.75rem 1rem', background: 'rgba(0,0,0,0.3)', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                             <h3 style={{ fontSize: '0.9rem', color: '#e2e8f0' }}>Object Editor</h3>
-                            {selectedDoc && <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', color: '#6366f1' }}>{selectedDoc._id}</span>}
+                            {selectedDoc && <span style={{ fontSize: '0.7rem', fontFamily: 'monospace', color: 'var(--accent-primary)' }}>{selectedDoc._id}</span>}
                         </div>
                         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                             {status && <span style={{ fontSize: '0.8rem', color: status.includes('Error') ? '#ef4444' : '#10b981', marginRight: '0.5rem' }}>{status}</span>}
