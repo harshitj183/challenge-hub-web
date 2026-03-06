@@ -33,8 +33,9 @@ const SupportTicketSchema: Schema<ISupportTicket> = new Schema(
     {
         ticketId: {
             type: String,
-            required: true,
+            required: false,  // Generated in API
             unique: true,
+            sparse: true,
         },
         userId: {
             type: Schema.Types.ObjectId,
@@ -69,14 +70,6 @@ SupportTicketSchema.index({ status: 1, createdAt: -1 });
 SupportTicketSchema.index({ userEmail: 1 });
 SupportTicketSchema.index({ priority: 1 });
 
-// Auto-generate ticketId before save
-SupportTicketSchema.pre('save', async function (next) {
-    if (!this.ticketId) {
-        const count = await (mongoose.models.SupportTicket || mongoose.model('SupportTicket', SupportTicketSchema)).countDocuments();
-        this.ticketId = `T-${String(1001 + count).padStart(4, '0')}`;
-    }
-    next();
-});
 
 const SupportTicket: Model<ISupportTicket> =
     mongoose.models.SupportTicket ||
