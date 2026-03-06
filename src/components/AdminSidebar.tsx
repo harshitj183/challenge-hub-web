@@ -9,6 +9,7 @@ const navItems = [
     { name: 'Analytics', path: '/admin/analytics', icon: '📈' },
     { name: 'Database', path: '/admin/database', icon: '🗄️' },
     { name: 'Winners', path: '/admin/winners', icon: '🏆' },
+    { name: 'Leaderboards', path: '/admin/leaderboards', icon: '🏅' },
     { name: 'Subscribers', path: '/admin/subscribers', icon: '👥' },
     { name: 'Support', path: '/admin/support', icon: '🎧' },
     { name: 'Settings', path: '/admin/settings', icon: '⚙️' },
