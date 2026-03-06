@@ -91,7 +91,7 @@ export default function AdminLeaderboardsPage() {
                         </thead>
                         <tbody>
                             {leaderboard.map((item, idx) => (
-                                <tr key={idx} style={item.rank <= 3 ? { background: 'rgba(99, 102, 241, 0.05)' } : {}}>
+                                <tr key={idx} style={item.rank <= 3 ? { background: 'rgba(212, 175, 55, 0.06)', borderLeft: '2px solid var(--accent-primary)' } : {}}>
                                     <td>
                                         <div style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
                                             {item.rank === 1 ? '🥇' : item.rank === 2 ? '🥈' : item.rank === 3 ? '🥉' : item.rank}
@@ -128,7 +128,10 @@ export default function AdminLeaderboardsPage() {
                                         <span style={{ fontWeight: 600 }}>{item.wins}</span>
                                     </td>
                                     <td>
-                                        <button className={styles.actionBtn}>View Profile</button>
+                                        <button
+                                            className={styles.actionBtn}
+                                            onClick={() => router.push(`/profile/${item.userId?._id}`)}
+                                        >View Profile</button>
                                     </td>
                                 </tr>
                             ))}
@@ -153,7 +156,7 @@ export default function AdminLeaderboardsPage() {
                         className={styles.actionBtn}
                         onClick={() => setCurrentPage(prev => prev + 1)}
                         disabled={(currentPage * 10) >= totalItems}
-                        style={{ opacity: (currentPage * 10) >= totalItems ? 0.5 : 1, cursor: (currentPage * 10) >= totalItems ? 'not-allowed' : 'pointer', background: '#4f46e5', color: 'white' }}
+                        style={{ opacity: (currentPage * 10) >= totalItems ? 0.5 : 1, cursor: (currentPage * 10) >= totalItems ? 'not-allowed' : 'pointer', background: 'var(--gradient-main)', color: 'black', fontWeight: 600 }}
                     >Next →</button>
                 </div>
             </div>

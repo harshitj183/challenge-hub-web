@@ -120,7 +120,18 @@ export default function AdminSupportPage() {
                                         </span>
                                     </td>
                                     <td>
-                                        <button className={styles.actionBtn}>Reply</button>
+                                        <button
+                                            className={styles.actionBtn}
+                                            onClick={() => {
+                                                const reply = prompt(`Reply to ticket ${ticket.id} (${ticket.subject}):\n\nYour reply message:`);
+                                                if (reply) {
+                                                    setTickets(prev => prev.map(t =>
+                                                        t.id === ticket.id ? { ...t, status: 'in-progress' } : t
+                                                    ));
+                                                    alert(`Reply sent to ${ticket.user}! Ticket marked as in-progress.`);
+                                                }
+                                            }}
+                                        >Reply</button>
                                     </td>
                                 </tr>
                             ))}

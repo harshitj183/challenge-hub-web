@@ -150,7 +150,13 @@ export default function AdminSubscribersPage() {
                                         </span>
                                     </td>
                                     <td>
-                                        <button className={styles.actionBtn}>Manage</button>
+                                        <button
+                                            className={styles.actionBtn}
+                                            onClick={() => {
+                                                const action = confirm(`Manage subscription for ${sub.userId?.name}?\n\nPlan: ${sub.plan}\nStatus: ${sub.status}\n\nClick OK to cancel their subscription, or Cancel to go back.`);
+                                                if (action) alert('Subscription cancellation initiated. (Connect Stripe webhook to fully implement.)');
+                                            }}
+                                        >Manage</button>
                                     </td>
                                 </tr>
                             ))}
