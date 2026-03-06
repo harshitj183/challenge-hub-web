@@ -31,7 +31,7 @@
 }
 
 .filterBtn.active {
-    border-color: rgba(99, 102, 241, 0.5);
+    border-color: rgba(212, 175, 55, 0.5);
 }
 
 .searchBox {
@@ -66,8 +66,8 @@
 }
 
 .searchBtn {
-    background: #4f46e5;
-    color: white;
+    background: var(--gradient-main);
+    color: black;
     border: none;
     padding: 0.5rem 1.5rem;
     border-radius: var(--radius-md);
@@ -77,7 +77,7 @@
 }
 
 .searchBtn:hover {
-    background: #4338ca;
+    background: var(--accent-secondary);
 }
 
 /* Dropdown */
@@ -108,7 +108,7 @@
 }
 
 .dropdown button:hover {
-    background: rgba(99, 102, 241, 0.2);
+    background: rgba(212, 175, 55, 0.2);
 }
 
 /* Table */
@@ -153,9 +153,9 @@
 }
 
 .pageBtn.active {
-    background: #4f46e5;
-    border-color: #4f46e5;
-    color: white;
+    background: var(--gradient-main);
+    border-color: var(--accent-primary);
+    color: black;
 }
 
 .tableContainer {
@@ -195,7 +195,7 @@
 }
 
 .table tbody tr.topThree {
-    background: rgba(99, 102, 241, 0.05);
+    background: rgba(212, 175, 55, 0.05);
 }
 
 .rankCell {
@@ -228,7 +228,7 @@
 
 .username {
     font-weight: 500;
-    color: #6366f1;
+    color: var(--accent-primary);
 }
 
 .points {
@@ -280,13 +280,13 @@
 }
 
 .navBtn.primary {
-    background: #4f46e5;
-    border-color: #4f46e5;
-    color: white;
+    background: var(--gradient-main);
+    border-color: var(--accent-primary);
+    color: black;
 }
 
 .navBtn.primary:hover {
-    background: #4338ca;
+    background: var(--accent-secondary);
 }
 
 @media (max-width: 768px) {
