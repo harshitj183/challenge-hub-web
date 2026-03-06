@@ -114,7 +114,12 @@ export default function AdminDashboard() {
                         Monitor and manage your challenge platform
                     </p>
                 </div>
-                <button className="btn-primary">+ Create Challenge</button>
+                <button
+                    className="btn-primary"
+                    onClick={() => router.push('/admin/challenges/create')}
+                >
+                    + Create Challenge
+                </button>
             </header>
 
             {/* Stats Grid */}
@@ -228,7 +233,12 @@ export default function AdminDashboard() {
                                 </div>
                             ))}
                         </div>
-                        <button className={styles.viewFullBtn}>View Full Leaderboard →</button>
+                        <button
+                            className={styles.viewFullBtn}
+                            onClick={() => router.push('/admin/leaderboards')}
+                        >
+                            View Full Leaderboard →
+                        </button>
                     </section>
 
                     {/* Recent Activity */}
