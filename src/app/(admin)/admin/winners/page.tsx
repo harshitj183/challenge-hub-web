@@ -22,6 +22,7 @@ interface Winner {
     mediaUrl: string;
     votes: number;
     status: string;
+    isWinner: boolean;
 }
 
 export default function AdminWinnersPage() {
@@ -43,22 +44,38 @@ export default function AdminWinnersPage() {
     const fetchWinners = async () => {
         try {
             setLoading(true);
-            // Fetch top submissions from ended challenges
             const res = await fetch('/api/submissions?limit=50');
             const data = await res.json();
 
             if (res.ok) {
-                // Filter for approved submissions and sort by votes
-                const topSubmissions = data.submissions
+                const submissions = data.submissions
                     .filter((s: any) => s.status === 'approved')
                     .sort((a: any, b: any) => b.votes - a.votes);
 
-                setWinners(topSubmissions);
+                setWinners(submissions);
             }
         } catch (error) {
             console.error('Error fetching winners:', error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const toggleWinner = async (submissionId: string, currentStatus: boolean) => {
+        try {
+            const res = await fetch('/api/admin/submissions/winner', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ submissionId, isWinner: !currentStatus }),
+            });
+
+            if (res.ok) {
+                setWinners(prev => prev.map(w =>
+                    w._id === submissionId ? { ...w, isWinner: !currentStatus } : w
+                ));
+            }
+        } catch (error) {
+            console.error('Error toggling winner:', error);
         }
     };
 
@@ -79,13 +96,13 @@ export default function AdminWinnersPage() {
                 <div>
                     <h1 className="text-gradient">Winners Management</h1>
                     <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem' }}>
-                        Manage challenge winners and prizes
+                        Manage challenge winners and prize distributions
                     </p>
                 </div>
             </header>
 
             <div className="glass-card" style={{ padding: '2rem' }}>
-                <h3 style={{ marginBottom: '1.5rem' }}>🏆 Top Submissions & Winners</h3>
+                <h3 style={{ marginBottom: '1.5rem' }}>🏆 Top Submissions & Winner Selection</h3>
 
                 {winners.length === 0 ? (
                     <p style={{ color: 'var(--text-secondary)', textAlign: 'center', padding: '2rem' }}>
@@ -99,8 +116,8 @@ export default function AdminWinnersPage() {
                                 display: 'flex',
                                 gap: '1.5rem',
                                 alignItems: 'center',
-                                background: idx < 3 ? 'rgba(255, 215, 0, 0.05)' : undefined,
-                                border: idx < 3 ? '1px solid rgba(255, 215, 0, 0.2)' : undefined,
+                                background: winner.isWinner ? 'rgba(212, 175, 55, 0.08)' : undefined,
+                                border: winner.isWinner ? '1px solid var(--accent-primary)' : undefined,
                             }}>
                                 {/* Rank */}
                                 <div style={{
@@ -115,17 +132,32 @@ export default function AdminWinnersPage() {
                                 <div style={{
                                     position: 'relative',
                                     width: '120px',
-                                    height: '120px',
+                                    height: '140px',
                                     borderRadius: '8px',
                                     overflow: 'hidden',
                                     flexShrink: 0,
+                                    border: '1px solid rgba(255, 255, 255, 0.1)'
                                 }}>
                                     <Image
                                         src={winner.mediaUrl}
                                         alt="Submission"
                                         fill
                                         style={{ objectFit: 'cover' }}
+                                        unoptimized
                                     />
+                                    {winner.isWinner && (
+                                        <div style={{
+                                            position: 'absolute',
+                                            top: 0,
+                                            right: 0,
+                                            padding: '4px 8px',
+                                            background: 'var(--accent-primary)',
+                                            color: 'black',
+                                            fontSize: '0.7rem',
+                                            fontWeight: 'bold',
+                                            borderBottomLeftRadius: '8px'
+                                        }}>WINNER</div>
+                                    )}
                                 </div>
 
                                 {/* User Info */}
@@ -143,20 +175,21 @@ export default function AdminWinnersPage() {
                                                 alt={winner.userId?.name}
                                                 fill
                                                 style={{ objectFit: 'cover' }}
+                                                unoptimized
                                             />
                                         </div>
                                         <div>
-                                            <h4 style={{ marginBottom: '0.25rem' }}>{winner.userId?.name}</h4>
-                                            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+                                            <h4 style={{ marginBottom: '0.1rem' }}>{winner.userId?.name}</h4>
+                                            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                                                 {winner.userId?.email}
                                             </p>
                                         </div>
                                     </div>
                                     <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
-                                        Challenge: <strong>{winner.challengeId?.title}</strong>
+                                        Challenge: <strong style={{ color: 'var(--text-primary)' }}>{winner.challengeId?.title}</strong>
                                     </p>
                                     {winner.challengeId?.prize && (
-                                        <p style={{ fontSize: '0.875rem', color: '#10b981', marginTop: '0.25rem' }}>
+                                        <p style={{ fontSize: '0.875rem', color: 'var(--accent-primary)', marginTop: '0.25rem' }}>
                                             💰 Prize: {winner.challengeId.prize.currency} {winner.challengeId.prize.amount}
                                         </p>
                                     )}
@@ -164,29 +197,45 @@ export default function AdminWinnersPage() {
 
                                 {/* Votes */}
                                 <div style={{ textAlign: 'center', minWidth: '100px' }}>
-                                    <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>
-                                        Votes
+                                    <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>
+                                        Platform Votes
                                     </p>
-                                    <h3 style={{ fontSize: '1.5rem', fontWeight: 700 }}>
-                                        ❤️ {winner.votes}
+                                    <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'var(--accent-primary)' }}>
+                                        🔥 {winner.votes}
                                     </h3>
                                 </div>
 
                                 {/* Actions */}
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                                     <button
-                                        onClick={() => router.push(`/challenges/${winner.challengeId._id}`)}
+                                        onClick={() => toggleWinner(winner._id, winner.isWinner)}
                                         style={{
                                             padding: '0.5rem 1rem',
-                                            background: 'rgba(99, 102, 241, 0.2)',
-                                            border: '1px solid rgba(99, 102, 241, 0.3)',
+                                            background: winner.isWinner ? 'rgba(239, 68, 68, 0.1)' : 'var(--gradient-main)',
+                                            border: 'none',
                                             borderRadius: '6px',
-                                            color: 'white',
+                                            color: winner.isWinner ? '#ef4444' : 'black',
                                             cursor: 'pointer',
-                                            fontSize: '0.875rem',
+                                            fontSize: '0.8rem',
+                                            fontWeight: 600,
+                                            minWidth: '120px'
                                         }}
                                     >
-                                        View Challenge
+                                        {winner.isWinner ? 'Remove Winner' : 'Make Winner 🏆'}
+                                    </button>
+                                    <button
+                                        onClick={() => router.push(`/challenges/${winner.challengeId?._id}`)}
+                                        style={{
+                                            padding: '0.5rem 1rem',
+                                            background: 'rgba(255, 255, 255, 0.05)',
+                                            border: '1px solid rgba(255, 255, 255, 0.1)',
+                                            borderRadius: '6px',
+                                            color: 'var(--text-secondary)',
+                                            cursor: 'pointer',
+                                            fontSize: '0.8rem',
+                                        }}
+                                    >
+                                        View Details
                                     </button>
                                 </div>
                             </div>
