@@ -130,7 +130,14 @@ export default function AdminLeaderboardsPage() {
                                     <td>
                                         <button
                                             className={styles.actionBtn}
-                                            onClick={() => router.push(`/profile/${item.userId?._id}`)}
+                                            onClick={() => {
+                                                const handle = item.userId?.username || item.userId?.name;
+                                                if (handle) {
+                                                    router.push(`/users/${encodeURIComponent(handle)}`);
+                                                } else {
+                                                    alert('Username not available for this user.');
+                                                }
+                                            }}
                                         >View Profile</button>
                                     </td>
                                 </tr>
