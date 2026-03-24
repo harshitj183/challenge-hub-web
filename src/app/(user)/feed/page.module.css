@@ -339,6 +339,29 @@
     color: inherit;
 }
 
+/* Watch Button */
+.watchBtn {
+    background: transparent;
+    border: 1px solid var(--accent-primary);
+    color: var(--accent-primary);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    letter-spacing: 1px;
+    margin-left: auto;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.watchBtn:hover {
+    background: rgba(212, 175, 55, 0.1);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    transform: translateY(-2px);
+}
+
 /* Empty State */
 .emptyState {
     grid-column: 1 / -1;

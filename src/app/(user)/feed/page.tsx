@@ -48,7 +48,7 @@ export default function FeedPage() {
     const [submissions, setSubmissions] = useState<Submission[]>([]);
     const [challenges, setChallenges] = useState<Challenge[]>([]);
     const [loading, setLoading] = useState(true);
-    const [filter, setFilter] = useState<'recent' | 'trending' | 'all' | 'challenges'>('trending');
+    const [filter, setFilter] = useState<'recent' | 'trending' | 'all' | 'challenges' | 'upcoming'>('trending');
     const [userVotes, setUserVotes] = useState<Set<string>>(new Set());
     const [votingInProgress, setVotingInProgress] = useState<Set<string>>(new Set());
     const [userFavorites, setUserFavorites] = useState<Set<string>>(new Set());
@@ -57,7 +57,7 @@ export default function FeedPage() {
     const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
-        if (filter === 'challenges') {
+        if (filter === 'challenges' || filter === 'upcoming') {
             fetchChallenges();
         } else {
             fetchSubmissions();
@@ -279,8 +279,9 @@ export default function FeedPage() {
     };
 
     // Separate promoted challenges
-    const promotedChallenges = challenges.filter(c => c.isPromoted && c.status === 'upcoming');
-    const regularChallenges = challenges.filter(c => !c.isPromoted || c.status !== 'upcoming');
+    const displayChallenges = filter === 'upcoming' ? challenges.filter(c => c.status === 'upcoming') : challenges;
+    const promotedChallenges = displayChallenges.filter(c => c.isPromoted && c.status === 'upcoming');
+    const regularChallenges = displayChallenges.filter(c => !c.isPromoted || c.status !== 'upcoming');
 
     return (
         <div className={styles.feedContainer}>
@@ -311,6 +312,12 @@ export default function FeedPage() {
                     >
                         Challenges
                     </button>
+                    <button
+                        className={`${styles.tab} ${filter === 'upcoming' ? styles.active : ''}`}
+                        onClick={() => setFilter('upcoming')}
+                    >
+                        Upcoming
+                    </button>
                 </div>
 
                 <div className={styles.controls}>
@@ -332,7 +339,7 @@ export default function FeedPage() {
             <div className={styles.grid}>
                 {loading ? (
                     <div className={styles.loader}>Loading...</div>
-                ) : filter === 'challenges' ? (
+                ) : filter === 'challenges' || filter === 'upcoming' ? (
                     <>
                         {/* Promoted Section */}
                         {promotedChallenges.length > 0 && !searchQuery && (
@@ -656,6 +663,13 @@ export default function FeedPage() {
                                             {userFavorites.has(sub._id) ? '⭐' : '☆'}
                                         </span>
                                     </button>
+
+                                    <button
+                                        onClick={() => router.push(`/submissions/${sub._id}`)}
+                                        className={styles.watchBtn}
+                                    >
+                                        WATCH
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -663,12 +677,12 @@ export default function FeedPage() {
                 )}
             </div>
 
-            {!loading && submissions.length === 0 && filter !== 'challenges' && (
+            {!loading && submissions.length === 0 && filter !== 'challenges' && filter !== 'upcoming' && (
                 <div className={styles.emptyState}>
                     <p>No submissions yet. Be the first to submit!</p>
                 </div>
             )}
-            {!loading && challenges.length === 0 && filter === 'challenges' && (
+            {!loading && displayChallenges.length === 0 && (filter === 'challenges' || filter === 'upcoming') && (
                 <div className={styles.emptyState}>
                     <p>No challenges found.</p>
                 </div>
