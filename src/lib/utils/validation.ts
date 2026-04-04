@@ -18,6 +18,9 @@ export const registerSchema = z.object({
         .string()
         .min(6, 'Password must be at least 6 characters')
         .max(100, 'Password cannot exceed 100 characters'),
+    tosAccepted: z.boolean().refine(val => val === true, 'You must accept the Terms of Service'),
+    privacyAccepted: z.boolean().refine(val => val === true, 'You must accept the Privacy Policy'),
+    version: z.string().default('1.0.0'),
 });
 
 // User Login Schema
@@ -65,6 +68,7 @@ export const createChallengeSchema = z.object({
         .max(1000, 'Description cannot exceed 1000 characters')
         .trim(),
     category: z.enum(['Fitness', 'Creative', 'Gaming', 'Learning', 'Lifestyle', 'Other']),
+    customCategory: z.string().optional(),
     challengeType: z.enum(['1v1', 'group', 'tournament']).default('1v1'),
     teamSize: z.number().min(2).max(10).optional(),
     startDate: z.string().or(z.date()),
@@ -86,9 +90,11 @@ export const createChallengeSchema = z.object({
     entryFee: z.number().min(0).optional(),
     restrictions: z.string().optional(),
 
-    scoringType: z.enum(['best_of_3', 'best_of_5', 'best_of_7', 'points']).optional(),
+    scoringType: z.enum(['best_of_1', 'best_of_3', 'best_of_5', 'best_of_7', 'points']).optional(),
     hasTimer: z.boolean().default(false),
     timerDurationMinutes: z.number().min(1).optional(),
+    timeLimitUploads: z.boolean().default(false),
+    twoStepCompetition: z.boolean().default(false),
 
     tournamentDetails: z.object({
         divisions: z.union([z.literal(2), z.literal(4), z.literal(6)])
@@ -110,6 +116,15 @@ export const createChallengeSchema = z.object({
     ageRestriction: z.number().min(0).default(0),
     maxParticipants: z.number().min(1).optional(),
     rules: z.array(z.string()).optional(),
+    rulesPdfUrl: z.string().url('Invalid rules PDF URL').optional().or(z.literal('')),
+}).refine(data => {
+    if (data.sponsorship) {
+        return data.sponsorship.roiPercentage + data.sponsorship.creatorPercentage === 15;
+    }
+    return true;
+}, {
+    message: "The combined Sponsor ROI and Creator ROI must equal exactly 15%",
+    path: ["sponsorship"]
 });
 
 // Submission Creation Schema

@@ -27,6 +27,9 @@ export async function POST(request: NextRequest) {
         // Hash password
         const hashedPassword = await hashPassword(validatedData.password);
 
+        // Get IP address
+        const ip = request.headers.get('x-forwarded-for') || '127.0.0.1';
+
         // Create new user
         const user = await User.create({
             name: validatedData.name,
@@ -39,6 +42,13 @@ export async function POST(request: NextRequest) {
                 badgesCollected: 0,
                 challengesEntered: 0,
                 challengesWon: 0,
+            },
+            agreements: {
+                tosAccepted: validatedData.tosAccepted,
+                privacyAccepted: validatedData.privacyAccepted,
+                acceptedAt: new Date(),
+                ipAddress: typeof ip === 'string' ? ip.split(',')[0] : '127.0.0.1',
+                version: validatedData.version,
             },
         });
 

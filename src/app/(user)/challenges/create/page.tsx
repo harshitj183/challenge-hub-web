@@ -16,18 +16,22 @@ export default function CreateChallengePage() {
         title: '',
         description: '',
         category: 'Fitness',
+        customCategory: '',
         challengeType: '1v1', // 1v1, group, tournament
         teamSize: 2,
         divisions: 2, // 2, 4, 6
-        scoringType: 'best_of_3', // best_of_3, best_of_5, best_of_7, points
+        scoringType: 'best_of_3', // best_of_1, best_of_3, best_of_5, best_of_7, points
         hasTimer: false,
         timerDurationMinutes: 5,
+        timeLimitUploads: false,
+        twoStepCompetition: false,
         startDate: '',
         endDate: '',
         deadlineTime: '',
         mediaUrl: '',
         mediaType: 'image',
         trailerUrl: '',
+        rulesPdfUrl: '',
         prizeType: 'money',
         prizeDetails: '',
         locationType: 'online',
@@ -40,36 +44,71 @@ export default function CreateChallengePage() {
         creatorRoi: 3,  // Default 3%
     });
 
+
+    const uploadFile = async (file: File, type: 'image' | 'video' | 'raw') => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('type', type);
+
+        const res = await fetch('/api/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Upload failed');
+        return data.url;
+    };
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target as HTMLInputElement;
         const val = type === 'number' ? Number(value) : (type === 'checkbox' ? (e.target as HTMLInputElement).checked : value);
 
         setFormData(prev => ({ ...prev, [name]: val }));
-
-        if (name === 'mediaUrl' && formData.mediaType === 'image') {
-            setPreviewMedia(value);
-        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // ROI Validation
+        if (formData.sponsorshipRequested) {
+            if (formData.sponsorRoi + formData.creatorRoi !== 15) {
+                setError('ROI split must total exactly 15%');
+                return;
+            }
+        }
+
         setLoading(true);
         setError('');
 
-        const finalData = {
-            ...formData,
-            isPrivate: activeTab === 'private',
-            requiresSubscription: activeTab === 'private',
-            rules: formData.rulesText.split('\n').filter(r => r.trim() !== ''),
-            tournamentDetails: formData.challengeType === 'tournament' ? { divisions: formData.divisions } : undefined,
-            sponsorship: formData.sponsorshipRequested ? {
-                roiPercentage: formData.sponsorRoi,
-                creatorPercentage: formData.creatorRoi,
-                status: 'pending'
-            } : undefined
-        };
-
         try {
+            // Handle Media Uploads if they are Files (from state)
+            let flyerUrl = formData.mediaUrl;
+            let trailerUrl = formData.trailerUrl;
+            let rulesPdfUrl = formData.rulesPdfUrl;
+
+            // Note: In a real implementation, we'd store the File objects in state.
+            // For now, I'll update the JSX to handle the upload immediately or on submit.
+            // Let's stick to "Upload on Submit" or "Upload on Selection".
+            // The current UI logic for Flyer is "Upload on Selection". Let's unify that.
+
+            const finalData = {
+                ...formData,
+                isPrivate: activeTab === 'private',
+                requiresSubscription: activeTab === 'private',
+                rules: formData.rulesText.split('\n').filter(r => r.trim() !== ''),
+                category: formData.category === 'Other' ? formData.customCategory : formData.category,
+                tournamentDetails: formData.challengeType === 'tournament' ? { divisions: formData.divisions } : undefined,
+                sponsorship: formData.sponsorshipRequested ? {
+                    roiPercentage: formData.sponsorRoi,
+                    creatorPercentage: formData.creatorRoi,
+                    status: 'pending'
+                } : undefined,
+                timeLimitUploads: formData.timeLimitUploads,
+                twoStepCompetition: formData.twoStepCompetition,
+                rulesPdfUrl: formData.rulesPdfUrl
+            };
+
             const res = await fetch('/api/challenges', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -157,7 +196,19 @@ export default function CreateChallengePage() {
                                     <option value="Learning" style={{ background: '#000' }}>Learning</option>
                                     <option value="Other" style={{ background: '#000' }}>Other</option>
                                 </select>
+                                {formData.category === 'Other' && (
+                                    <input 
+                                        type="text" 
+                                        name="customCategory" 
+                                        placeholder="Specify Category..." 
+                                        value={formData.customCategory} 
+                                        onChange={handleChange} 
+                                        required 
+                                        style={{ ...inputStyles, marginTop: '0.5rem' }} 
+                                    />
+                                )}
                             </div>
+
                         </div>
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -201,6 +252,7 @@ export default function CreateChallengePage() {
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                                 <label style={{ fontWeight: 500, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Scoring System</label>
                                 <select name="scoringType" value={formData.scoringType} onChange={handleChange} style={inputStyles}>
+                                    <option value="best_of_1" style={{ background: '#000' }}>1 Rounder (Tournament Only)</option>
                                     <option value="best_of_3" style={{ background: '#000' }}>Best of 3</option>
                                     <option value="best_of_5" style={{ background: '#000' }}>Best of 5</option>
                                     <option value="best_of_7" style={{ background: '#000' }}>Best of 7</option>
@@ -210,18 +262,31 @@ export default function CreateChallengePage() {
                         </div>
 
                         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)', gap: '1.5rem' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '1rem' }}>
-                                <input type="checkbox" name="hasTimer" id="hasTimer" checked={formData.hasTimer} onChange={handleChange} style={{ width: '20px', height: '20px', accentColor: '#f59e0b' }} />
-                                <label htmlFor="hasTimer" style={{ fontWeight: 500, fontSize: '0.95rem' }}>Add Time Limit</label>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                    <input type="checkbox" name="hasTimer" id="hasTimer" checked={formData.hasTimer} onChange={handleChange} style={{ width: '20px', height: '20px', accentColor: '#f59e0b' }} />
+                                    <label htmlFor="hasTimer" style={{ fontWeight: 500, fontSize: '0.95rem' }}>Add Time Limit</label>
+                                </div>
+                                {formData.hasTimer && (
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginLeft: '2rem' }}>
+                                        <label style={{ fontWeight: 500, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Duration (Minutes)</label>
+                                        <input type="number" name="timerDurationMinutes" min={1} value={formData.timerDurationMinutes} onChange={handleChange} style={inputStyles} />
+                                    </div>
+                                )}
                             </div>
 
-                            {formData.hasTimer && (
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                    <label style={{ fontWeight: 500, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Duration (Minutes)</label>
-                                    <input type="number" name="timerDurationMinutes" min={1} value={formData.timerDurationMinutes} onChange={handleChange} style={inputStyles} />
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                    <input type="checkbox" name="timeLimitUploads" id="timeLimitUploads" checked={formData.timeLimitUploads} onChange={handleChange} style={{ width: '20px', height: '20px', accentColor: '#f59e0b' }} />
+                                    <label htmlFor="timeLimitUploads" style={{ fontWeight: 500, fontSize: '0.95rem' }}>Time limit on media uploads</label>
                                 </div>
-                            )}
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                    <input type="checkbox" name="twoStepCompetition" id="twoStepCompetition" checked={formData.twoStepCompetition} onChange={handleChange} style={{ width: '20px', height: '20px', accentColor: '#f59e0b' }} />
+                                    <label htmlFor="twoStepCompetition" style={{ fontWeight: 500, fontSize: '0.95rem' }}>2-Step Competition Format</label>
+                                </div>
+                            </div>
                         </div>
+
                     </section>
 
                     {/* Prizes & Location */}
@@ -290,16 +355,24 @@ export default function CreateChallengePage() {
                                 <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)', gap: '1rem' }}>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                                         <label style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Sponsor Return (%)</label>
-                                        <input type="number" name="sponsorRoi" min={0} max={100} value={formData.sponsorRoi} onChange={handleChange} style={inputStyles} />
+                                        <input type="number" name="sponsorRoi" min={0} max={15} value={formData.sponsorRoi} onChange={handleChange} style={inputStyles} />
                                     </div>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                                         <label style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Creator Return (%)</label>
-                                        <input type="number" name="creatorRoi" min={0} max={100} value={formData.creatorRoi} onChange={handleChange} style={inputStyles} />
+                                        <input type="number" name="creatorRoi" min={0} max={15} value={formData.creatorRoi} onChange={handleChange} style={inputStyles} />
                                     </div>
-                                    <span style={{ gridColumn: '1 / -1', fontSize: '0.75rem', color: '#9ca3af' }}>Both parties must approve the equity sync before final execution.</span>
+                                    <div style={{ gridColumn: '1 / -1', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <span style={{ fontSize: '0.75rem', color: formData.sponsorRoi + formData.creatorRoi === 15 ? '#10b981' : '#ef4444' }}>
+                                            Total Equity Sync: {formData.sponsorRoi + formData.creatorRoi}% (Must be exactly 15%)
+                                        </span>
+                                        {formData.sponsorRoi + formData.creatorRoi !== 15 && (
+                                            <span style={{ fontSize: '0.75rem', color: '#ef4444' }}>⚠️ ROI split must total 15%</span>
+                                        )}
+                                    </div>
                                 </div>
                             )}
                         </div>
+
 
                     </section>
 
@@ -324,8 +397,44 @@ export default function CreateChallengePage() {
 
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                <label style={{ fontWeight: 500, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Promo Image / Flyer URL</label>
-                                <input type="url" name="mediaUrl" value={formData.mediaUrl} onChange={handleChange} placeholder="Image link..." style={inputStyles} />
+                                <label style={{ fontWeight: 500, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Challenge Flyer (Image Upload)</label>
+                                <div style={{ 
+                                    border: '2px dashed rgba(255,255,255,0.1)', 
+                                    borderRadius: '12px', 
+                                    padding: '1.5rem', 
+                                    textAlign: 'center',
+                                    background: 'rgba(255,255,255,0.02)',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s',
+                                    position: 'relative'
+                                }}>
+                                    <input 
+                                        type="file" 
+                                        accept="image/*" 
+                                        onChange={async (e) => {
+                                            const file = e.target.files?.[0];
+                                            if (file) {
+                                                try {
+                                                    setLoading(true);
+                                                    const url = await uploadFile(file, 'image');
+                                                    setFormData(prev => ({ ...prev, mediaUrl: url }));
+                                                    setPreviewMedia(url);
+                                                } catch (err: any) {
+                                                    setError(err.message);
+                                                } finally {
+                                                    setLoading(false);
+                                                }
+                                            }
+                                        }} 
+                                        style={{ display: 'none' }} 
+                                        id="flyer-upload"
+                                    />
+                                    <label htmlFor="flyer-upload" style={{ cursor: 'pointer' }}>
+                                        <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>🖼️</div>
+                                        <div style={{ fontSize: '0.85rem', color: 'white' }}>Click to upload flyer</div>
+                                        <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>PNG, JPG up to 5MB</div>
+                                    </label>
+                                </div>
                                 {previewMedia && (
                                     <div style={{ marginTop: '0.5rem', position: 'relative', width: '100%', height: '120px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border-light)' }}>
                                         <Image src={previewMedia} alt="Preview" fill style={{ objectFit: 'cover' }} />
@@ -333,10 +442,79 @@ export default function CreateChallengePage() {
                                 )}
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                <label style={{ fontWeight: 500, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Promo Trailer Video URL</label>
-                                <input type="url" name="trailerUrl" value={formData.trailerUrl} onChange={handleChange} placeholder="YouTube/Vimeo link..." style={inputStyles} />
+                                <label style={{ fontWeight: 500, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Challenge Trailer (Video Upload)</label>
+                                <div style={{ 
+                                    border: '2px dashed rgba(255,255,255,0.1)', 
+                                    borderRadius: '12px', 
+                                    padding: '1.5rem', 
+                                    textAlign: 'center',
+                                    background: 'rgba(255,255,255,0.02)',
+                                    cursor: 'pointer'
+                                }}>
+                                    <input 
+                                        type="file" 
+                                        accept="video/*" 
+                                        onChange={async (e) => {
+                                            const file = e.target.files?.[0];
+                                            if (file) {
+                                                try {
+                                                    setLoading(true);
+                                                    const url = await uploadFile(file, 'video');
+                                                    setFormData(prev => ({ ...prev, trailerUrl: url }));
+                                                } catch (err: any) {
+                                                    setError(err.message);
+                                                } finally {
+                                                    setLoading(false);
+                                                }
+                                            }
+                                        }} 
+                                        style={{ display: 'none' }} 
+                                        id="trailer-upload"
+                                    />
+                                    <label htmlFor="trailer-upload" style={{ cursor: 'pointer' }}>
+                                        <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>🎥</div>
+                                        <div style={{ fontSize: '0.85rem', color: 'white' }}>Click to upload trailer</div>
+                                        <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>MP4, MOV up to 50MB</div>
+                                    </label>
+                                </div>
+                                {formData.trailerUrl && (
+                                    <div style={{ fontSize: '0.75rem', color: '#10b981', marginTop: '0.5rem' }}>
+                                        ✅ Trailer Uploaded
+                                    </div>
+                                )}
                             </div>
                         </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                            <label style={{ fontWeight: 500, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Specific Rules (PDF Upload)</label>
+                            <input 
+                                type="file" 
+                                accept=".pdf" 
+                                onChange={async (e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                        try {
+                                            setLoading(true);
+                                            // Sending as raw for PDF
+                                            const url = await uploadFile(file, 'raw' as any); 
+                                            setFormData(prev => ({ ...prev, rulesPdfUrl: url }));
+                                        } catch (err: any) {
+                                            setError(err.message);
+                                        } finally {
+                                            setLoading(false);
+                                        }
+                                    }
+                                }} 
+                                style={inputStyles} 
+                            />
+                            {formData.rulesPdfUrl && (
+                                <div style={{ fontSize: '0.75rem', color: '#10b981', marginTop: '0.2rem' }}>
+                                    ✅ Rules PDF Uploaded
+                                </div>
+                            )}
+                            <p style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', margin: 0 }}>Upload a detailed rules document for participants.</p>
+                        </div>
+
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                             <label style={{ fontWeight: 500, fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Standard Rules & Policies (One per line)</label>

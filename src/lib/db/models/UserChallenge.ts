@@ -9,6 +9,10 @@ export interface IUserChallenge extends Document {
     completedAt?: Date;
     createdAt: Date;
     updatedAt: Date;
+    rulesAccepted: boolean;
+    nonRefundableAccepted?: boolean;
+    agreementTimestamp: Date;
+    agreementIp: string;
 }
 
 const UserChallengeSchema: Schema<IUserChallenge> = new Schema(
@@ -44,6 +48,20 @@ const UserChallengeSchema: Schema<IUserChallenge> = new Schema(
         completedAt: {
             type: Date,
             default: null,
+        },
+        rulesAccepted: {
+            type: Boolean,
+            required: [true, 'Agreement to rules is required'],
+        },
+        nonRefundableAccepted: {
+            type: Boolean,
+        },
+        agreementTimestamp: {
+            type: Date,
+            default: Date.now,
+        },
+        agreementIp: {
+            type: String,
         },
     },
     {

@@ -11,6 +11,8 @@ export default function RegisterPage() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [tosAccepted, setTosAccepted] = useState(false);
+    const [privacyAccepted, setPrivacyAccepted] = useState(false);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
@@ -24,7 +26,14 @@ export default function RegisterPage() {
             const res = await fetch('/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password }),
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password,
+                    tosAccepted,
+                    privacyAccepted,
+                    version: '1.0.0'
+                }),
             });
 
             const data = await res.json();
@@ -109,6 +118,34 @@ export default function RegisterPage() {
                             required
                             minLength={6}
                         />
+                    </div>
+
+                    <div className={styles.checkboxGroup}>
+                        <label className={styles.checkboxLabel}>
+                            <input
+                                type="checkbox"
+                                checked={tosAccepted}
+                                onChange={(e) => setTosAccepted(e.target.checked)}
+                                className={styles.checkbox}
+                                required
+                            />
+                            <span>
+                                I accept the <Link href="/terms" className={styles.link}>Terms of Service</Link>
+                            </span>
+                        </label>
+
+                        <label className={styles.checkboxLabel}>
+                            <input
+                                type="checkbox"
+                                checked={privacyAccepted}
+                                onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                                className={styles.checkbox}
+                                required
+                            />
+                            <span>
+                                I accept the <Link href="/privacy" className={styles.link}>Privacy Policy</Link>
+                            </span>
+                        </label>
                     </div>
 
                     <button

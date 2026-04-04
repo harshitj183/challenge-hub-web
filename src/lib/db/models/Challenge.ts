@@ -5,6 +5,7 @@ export interface IChallenge extends Document {
     title: string;
     description: string;
     category: string;
+    customCategory?: string;
     image: string; // Cover image
     videoUrl?: string; // Challenge video
     badge: 'Prize' | 'Normal';
@@ -18,6 +19,7 @@ export interface IChallenge extends Document {
     mediaUrl: string;
     mediaType: 'image' | 'video';
     trailerUrl?: string;
+    rulesPdfUrl?: string; // New field for detailed rules
 
     // Payment & Prizes
     isFree: boolean;
@@ -43,14 +45,16 @@ export interface IChallenge extends Document {
     locationDetails?: string;
 
     // Scoring & Timers
-    scoringType?: 'best_of_3' | 'best_of_5' | 'best_of_7' | 'points';
+    scoringType?: 'best_of_1' | 'best_of_3' | 'best_of_5' | 'best_of_7' | 'points';
     hasTimer: boolean;
     timerDurationMinutes?: number;
+    timeLimitUploads?: boolean;
 
     // Tournaments & Live Events
     tournamentDetails?: {
         divisions: 2 | 4 | 6;
     };
+    twoStepCompetition?: boolean;
     liveEventDetails?: {
         insuranceUploaded: boolean;
         venueAgreementUploaded: boolean;
@@ -95,6 +99,10 @@ const ChallengeSchema: Schema<IChallenge> = new Schema(
             required: [true, 'Category is required'],
             enum: ['Fitness', 'Creative', 'Gaming', 'Learning', 'Lifestyle', 'Other'],
         },
+        customCategory: {
+            type: String,
+            default: '',
+        },
         challengeType: {
             type: String,
             enum: ['1v1', 'group', 'tournament'],
@@ -114,6 +122,10 @@ const ChallengeSchema: Schema<IChallenge> = new Schema(
             default: 'image',
         },
         trailerUrl: {
+            type: String,
+            default: '',
+        },
+        rulesPdfUrl: {
             type: String,
             default: '',
         },
@@ -215,7 +227,7 @@ const ChallengeSchema: Schema<IChallenge> = new Schema(
         // Scoring & Timers
         scoringType: {
             type: String,
-            enum: ['best_of_3', 'best_of_5', 'best_of_7', 'points'],
+            enum: ['best_of_1', 'best_of_3', 'best_of_5', 'best_of_7', 'points'],
         },
         hasTimer: {
             type: Boolean,
@@ -223,6 +235,14 @@ const ChallengeSchema: Schema<IChallenge> = new Schema(
         },
         timerDurationMinutes: {
             type: Number,
+        },
+        timeLimitUploads: {
+            type: Boolean,
+            default: false,
+        },
+        twoStepCompetition: {
+            type: Boolean,
+            default: false,
         },
 
         // Tournaments & Live Events

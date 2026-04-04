@@ -41,6 +41,13 @@ export interface IUser extends Document {
     createdAt: Date;
     updatedAt: Date;
     pushSubscription?: string; // stringified JSON push subscription
+    agreements?: {
+        tosAccepted: boolean;
+        privacyAccepted: boolean;
+        acceptedAt: Date;
+        ipAddress: string;
+        version: string;
+    };
 }
 
 const UserSchema: Schema<IUser> = new Schema(
@@ -185,7 +192,14 @@ const UserSchema: Schema<IUser> = new Schema(
             type: String,
             default: null,
             select: false, // keep it private
-        }
+        },
+        agreements: {
+            tosAccepted: { type: Boolean, default: false },
+            privacyAccepted: { type: Boolean, default: false },
+            acceptedAt: { type: Date },
+            ipAddress: { type: String },
+            version: { type: String },
+        },
     },
     {
         timestamps: true,

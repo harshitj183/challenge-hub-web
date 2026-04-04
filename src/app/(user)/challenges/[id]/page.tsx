@@ -8,6 +8,7 @@ import styles from './page.module.css';
 import SubmissionModal from '@/components/challenges/SubmissionModal';
 import ShareButton from '@/components/ShareButton';
 import CommentSection from '@/components/challenges/CommentSection';
+import JoinAgreementModal from '@/components/challenges/JoinAgreementModal';
 
 interface Challenge {
     _id: string;
@@ -16,6 +17,7 @@ interface Challenge {
     category: string;
     participants: number;
     status: string;
+    challengeType: string;
     image?: string;
     mediaUrl?: string; // New unified media format
     badge: string;
@@ -59,15 +61,33 @@ export default function ChallengeDetailsPage() {
     const [showSponsorModal, setShowSponsorModal] = useState(false);
     const [sponsorForm, setSponsorForm] = useState({ amount: 100, roi: 12, creatorCut: 3 });
 
+    // Join Flow States
+    const [isJoined, setIsJoined] = useState(false);
+    const [showJoinModal, setShowJoinModal] = useState(false);
+    const [joining, setJoining] = useState(false);
+
     useEffect(() => {
         if (params.id) {
             fetchChallengeDetails(params.id as string);
             fetchSubmissions();
+            if (session) {
+                checkJoinStatus();
+            }
         }
         if (session) {
             fetchUserVotes();
         }
     }, [params.id, session]);
+
+    const checkJoinStatus = async () => {
+        try {
+            const res = await fetch(`/api/challenges/${params.id}/join`);
+            const data = await res.json();
+            if (res.ok) setIsJoined(data.isJoined);
+        } catch (error) {
+            console.error('Error checking join status:', error);
+        }
+    };
 
     // Timer Logic
     useEffect(() => {
@@ -231,6 +251,33 @@ export default function ChallengeDetailsPage() {
         }
     };
 
+    const handleJoinConfirm = async () => {
+        setJoining(true);
+        try {
+            const res = await fetch(`/api/challenges/${params.id}/join`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    rulesAccepted: true,
+                    nonRefundableAccepted: true
+                })
+            });
+
+            if (res.ok) {
+                setIsJoined(true);
+                setShowJoinModal(false);
+                setShowModal(true); // Open submission modal immediately after join
+            } else {
+                const data = await res.json();
+                alert(data.error || 'Failed to join challenge');
+            }
+        } catch (error) {
+            console.error('Error joining challenge:', error);
+        } finally {
+            setJoining(false);
+        }
+    };
+
     if (loading) return <div className="loading-screen"><div className="spinner"></div></div>;
     if (!challenge) return <div className="error-screen">Challenge not found</div>;
 
@@ -246,6 +293,16 @@ export default function ChallengeDetailsPage() {
                     onSuccess={() => {
                         fetchSubmissions();
                     }}
+                />
+            )}
+
+            {showJoinModal && (
+                <JoinAgreementModal
+                    challengeTitle={challenge.title}
+                    rulesPdfUrl={(challenge as any).rulesPdfUrl}
+                    onConfirm={handleJoinConfirm}
+                    onClose={() => setShowJoinModal(false)}
+                    loading={joining}
                 />
             )}
 
@@ -493,9 +550,12 @@ export default function ChallengeDetailsPage() {
                             {session ? (
                                 <button
                                     className={styles.joinButton}
-                                    onClick={() => setShowModal(true)}
+                                    onClick={() => {
+                                        if (isJoined) setShowModal(true);
+                                        else setShowJoinModal(true);
+                                    }}
                                 >
-                                    Join Challenge 🏆
+                                    {isJoined ? 'Submit Media 🏆' : 'Join Challenge 🏆'}
                                 </button>
                             ) : (
                                 <Link href="/auth/login" style={{ width: '100%' }}>
@@ -520,6 +580,30 @@ export default function ChallengeDetailsPage() {
                             >
                                 {interested ? '👀 Interested' : 'Interested in watching'}
                             </button>
+
+                            {challenge.challengeType === 'tournament' && (
+                                <Link href={`/challenges/${challenge._id}/bracket`} style={{ width: '100%' }}>
+                                    <button
+                                        style={{
+                                            width: '100%',
+                                            background: 'rgba(59, 130, 246, 0.1)',
+                                            border: '1px solid #3b82f6',
+                                            color: '#60a5fa',
+                                            padding: '0.75rem',
+                                            borderRadius: '12px',
+                                            fontWeight: 600,
+                                            cursor: 'pointer',
+                                            transition: 'all 0.2s',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            gap: '0.5rem'
+                                        }}
+                                    >
+                                        🏆 View Live Bracket
+                                    </button>
+                                </Link>
+                            )}
                         </div>
                     </div>
 
